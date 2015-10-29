@@ -9,3 +9,4 @@ Homestead.json
 /nbproject
 *.sublime-*
 *.log
+*.bak
