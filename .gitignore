@@ -6,7 +6,10 @@ Homestead.json
 .env.*.php
 .env.php
 /bootstrap/compiled.php
-/nbproject
 *.sublime-*
+/nbproject
+/build
 *.log
 *.bak
+cache.properties
+.sass-cache/
