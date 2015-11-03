@@ -11,10 +11,13 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', ['middleware' => 'auth', function () {
+    return Redirect::to('users.dashboard')->with('message', 'Login Failed');
+}]);
 
+Route::get('/auth', ['middleware' => 'auth', function () {
+    return Redirect::to('users.dashboard')->with('message', 'Login Failed');
+}]);
 
 // Authentication routes...
 Route::get('auth/login', 'Auth\AuthController@getLogin');
@@ -25,6 +28,34 @@ Route::get('auth/logout', 'Auth\AuthController@getLogout');
 Route::get('auth/register', 'Auth\AuthController@getRegister');
 Route::post('auth/register', 'Auth\AuthController@postRegister');
 
+// Password reset link request routes...
+Route::get('password/email', 'Auth\PasswordController@getEmail');
+Route::post('password/email', 'Auth\PasswordController@postEmail');
+
+// Password reset routes...
+Route::get('password/reset/{token}', 'Auth\PasswordController@getReset');
+Route::post('password/reset', 'Auth\PasswordController@postReset');
+
+
 Route::get('dashboard', function () {
-    return view('dashboard');
+	$user = new \App\User(array('name' => 'John'));
+    return view('dashboard')->with('user', $user);
 });
+
+// Using A Route Closure...
+
+Route::get('profile', ['middleware' => 'auth', function() {
+	// Only authenticated users may enter...
+	return view('profile'); 
+}]);
+Route::get('profile', [
+    'middleware' => 'auth',
+    'uses' => 'ProfileController@show'
+]);
+
+// Using A Controller...
+
+Route::get('profile', [
+    'middleware' => 'auth',
+    'uses' => 'ProfileController@show'
+]);
