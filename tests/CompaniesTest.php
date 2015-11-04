@@ -1,11 +1,47 @@
 <?php
 
+use App\Company;
+
 use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class CompaniesTest extends TestCase
 {
+    use DatabaseTransactions;
+
+    public function test_tasks_are_displayed_on_the_dashboard()
+    {
+        factory(Company::class)->create(['name' => 'Company 1']);
+        factory(Company::class)->create(['name' => 'Company 2']);
+        factory(Company::class)->create(['name' => 'Company 3']);
+
+        $this->visit('/')
+             ->see('Company 1')
+             ->see('Company 2')
+             ->see('Company 3');
+    }
+
+
+    public function test_tasks_can_be_created()
+    {
+        $this->visit('/')->dontSee('Company 1');
+
+        $this->visit('/')
+            ->type('Company 1', 'name')
+            ->press('Add Company')
+            ->see('Company 1');
+    }
+
+
+    public function test_long_tasks_cant_be_created()
+    {
+        $this->visit('/')
+            ->type(str_random(300), 'name')
+            ->press('Add Company')
+            ->see('Whoops!');
+    }
+    
     /**
      * A basic test example.
      *
@@ -92,6 +128,7 @@ class CompaniesTest extends TestCase
              ->seePageIs('/')
              ->see($name)
              ->see('Delete')
+             
              ->press('Delete Company')
              ->seePageIs('/')
              //->dontSee($name);
