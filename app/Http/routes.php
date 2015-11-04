@@ -36,6 +36,12 @@ Route::post('/company', function (Request $request) {
     }
 
     // Create The Company...
+
+    $company = new Company;
+    $company->name = $request->name;
+    $company->save();
+
+    return redirect('/');
 });
 
 /**
