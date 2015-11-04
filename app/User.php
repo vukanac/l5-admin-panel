@@ -36,4 +36,12 @@ class User extends Model implements AuthenticatableContract,
      * @var array
      */
     protected $hidden = ['password', 'remember_token'];
+
+    /**
+     * Get all of the companies for the user.
+     */
+    public function companies()
+    {
+        return $this->hasMany(Company::class);
+    }
 }
