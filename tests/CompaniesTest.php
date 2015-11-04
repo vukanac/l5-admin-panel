@@ -19,7 +19,7 @@ class CompaniesTest extends TestCase
         factory(Company::class)->create(['name' => 'Company 2']);
         factory(Company::class)->create(['name' => 'Company 3']);
 
-        $this->visit('/')
+        $this->visit('/companies')
              ->see('Company 1')
              ->see('Company 2')
              ->see('Company 3');
@@ -28,9 +28,9 @@ class CompaniesTest extends TestCase
 
     public function test_companies_can_be_created()
     {
-        $this->visit('/')->dontSee('Company 1');
+        $this->visit('/companies')->dontSee('Company 1');
 
-        $this->visit('/')
+        $this->visit('/companies')
             ->type('Company 1', 'name')
             ->press('Add Company')
             ->see('Company 1');
@@ -39,7 +39,7 @@ class CompaniesTest extends TestCase
 
     public function test_long_companies_cant_be_created()
     {
-        $this->visit('/')
+        $this->visit('/companies')
             ->type(str_random(300), 'name')
             ->press('Add Company')
             ->see('Whoops!');
@@ -75,12 +75,12 @@ class CompaniesTest extends TestCase
         // dd($companies->toArray());
         $company = factory(App\Company::class)->create();
 
-        $this->get('/')
+        $this->get('/companies')
              ->see($company->name);
     }
     public function testAdminCanSeeListOfCompanies()
     {
-        $this->visit('/')
+        $this->visit('/companies')
              ->see('List of companies');
     	// Cache::shouldReceive('get')
      //                ->once()
@@ -123,17 +123,17 @@ class CompaniesTest extends TestCase
     public function testDeleteButtonExist()
     {
         $name = 'n-'.time();
-        $this->visit('/')
+        $this->visit('/companies')
              ->see('Add Company')
              ->type($name, 'name')
              ->press('Add Company')
              ->seeInDatabase('companies', ['name' => $name])
-             ->seePageIs('/')
+             ->seePageIs('/companies')
              ->see($name)
              ->see('Delete')
              
              ->press('Delete Company')
-             ->seePageIs('/')
+             ->seePageIs('/companies')
              //->dontSee($name);
              ;
 
