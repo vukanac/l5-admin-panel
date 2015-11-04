@@ -20,8 +20,14 @@ $factory->define(App\User::class, function (Faker\Generator $faker) {
     ];
 });
 
-$factory->defineAs(App\User::class, 'admin', function ($faker) use ($factory) {
+$factory->defineAs(App\User::class, 'admin', function (Faker\Generator $faker) use ($factory) {
     $user = $factory->raw(App\User::class);
 
     return array_merge($user, ['admin' => true]);
+});
+
+$factory->define(App\Company::class, function (Faker\Generator $faker) {
+    return [
+        'name' => $faker->sentence
+    ];
 });
