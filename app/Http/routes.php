@@ -30,7 +30,7 @@ Route::get('/', function () {
  */
 Route::post('/company', function (Request $request) {
     $validator = Validator::make($request->all(), [
-        'name' => 'required|max:5',
+        'name' => 'required|max:255',
     ]);
 
     if ($validator->fails()) {
@@ -52,7 +52,9 @@ Route::post('/company', function (Request $request) {
  * Delete An Existing Company
  */
 Route::delete('/company/{id}', function ($id) {
-    //
+    Company::findOrFail($id)->delete();
+
+    return redirect('/');
 });
 
 // Route::get('/', ['middleware' => 'auth', function () {

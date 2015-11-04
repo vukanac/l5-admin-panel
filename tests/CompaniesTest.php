@@ -32,11 +32,12 @@ class CompaniesTest extends TestCase
     }
     public function testAdminCanGetListOfCompaniesJson()
     {
-        $this->assertTrue(true);
-        return;
+        // $companies = factory(App\Company::class, 3)->make();
+        // dd($companies->toArray());
+        $company = factory(App\Company::class)->create();
+
         $this->get('/')
-             ->seeJson([
-             ]);
+             ->see($company->name);
     }
     public function testAdminCanSeeListOfCompanies()
     {
@@ -78,5 +79,23 @@ class CompaniesTest extends TestCase
                 'message' => '',
                 'deleted' => true,
              ]);
+    }
+
+    public function testDeleteButtonExist()
+    {
+        $name = 'n-'.time();
+        $this->visit('/')
+             ->see('Add Company')
+             ->type($name, 'name')
+             ->press('Add Company')
+             ->seeInDatabase('companies', ['name' => $name])
+             ->seePageIs('/')
+             ->see($name)
+             ->see('Delete')
+             ->press('Delete Company')
+             ->seePageIs('/')
+             //->dontSee($name);
+             ;
+
     }
 }
