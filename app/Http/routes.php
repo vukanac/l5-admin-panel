@@ -14,10 +14,15 @@
 use App\Company;
 use Illuminate\Http\Request;
 
+
+Route::get('/', function () {
+    return view('welcome');
+});
+
 /**
  * Display All Companies
  */
-Route::get('/', function () {
+Route::get('companies', function () {
     $companies = Company::orderBy('created_at', 'asc')->get();
 
     return view('companies', [
@@ -34,7 +39,7 @@ Route::post('/company', function (Request $request) {
     ]);
 
     if ($validator->fails()) {
-        return redirect('/')
+        return redirect('/companies')
             ->withInput()
             ->withErrors($validator);
     }
@@ -45,7 +50,7 @@ Route::post('/company', function (Request $request) {
     $company->name = $request->name;
     $company->save();
 
-    return redirect('/');
+    return redirect('/companies');
 });
 
 /**
@@ -54,7 +59,7 @@ Route::post('/company', function (Request $request) {
 Route::delete('/company/{id}', function ($id) {
     Company::findOrFail($id)->delete();
 
-    return redirect('/');
+    return redirect('/companies');
 });
 
 // Route::get('/', ['middleware' => 'auth', function () {
