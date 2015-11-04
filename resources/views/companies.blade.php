@@ -8,7 +8,7 @@
 
     <div class="panel-body">
         <!-- Display Validation Errors -->
-        <!-- @ include('common.errors') -->
+        @include('common.errors')
 
         <!-- New Company Form -->
         <form action="/company" method="POST" class="form-horizontal">
