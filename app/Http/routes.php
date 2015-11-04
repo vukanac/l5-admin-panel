@@ -25,7 +25,17 @@ Route::get('/', function () {
  * Add A New Company
  */
 Route::post('/company', function (Request $request) {
-    //
+    $validator = Validator::make($request->all(), [
+        'name' => 'required|max:5',
+    ]);
+
+    if ($validator->fails()) {
+        return redirect('/')
+            ->withInput()
+            ->withErrors($validator);
+    }
+
+    // Create The Company...
 });
 
 /**

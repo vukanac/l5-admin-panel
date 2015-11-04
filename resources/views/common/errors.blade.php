@@ -1,5 +1,5 @@
 <!-- resources/views/common/errors.blade.php -->
-
+<!-- $errors is laravel's global variable = ViewErrorBag -->
 @if (count($errors) > 0)
     <!-- Form Error List -->
     <div class="alert alert-danger">
