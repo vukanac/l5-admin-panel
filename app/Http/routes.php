@@ -11,15 +11,40 @@
 |
 */
 
-Route::get('/', ['middleware' => 'auth', function () {
-    return Redirect::to('users.dashboard')->with('message', 'Login Failed');
-}]);
+use App\Company;
+use Illuminate\Http\Request;
 
-Route::get('/auth', ['middleware' => 'auth', function () {
-    return Redirect::to('users.dashboard')->with('message', 'Login Failed');
-}]);
+/**
+ * Display All Companies
+ */
+Route::get('/', function () {
+	return view('companies');
+});
+
+/**
+ * Add A New Company
+ */
+Route::post('/company', function (Request $request) {
+    //
+});
+
+/**
+ * Delete An Existing Company
+ */
+Route::delete('/company/{id}', function ($id) {
+    //
+});
+
+// Route::get('/', ['middleware' => 'auth', function () {
+//     return Redirect::to('users.dashboard')->with('message', 'Login Failed');
+// }]);
+
+// Route::get('auth', ['middleware' => 'auth', function () {
+//     return Redirect::to('dashboard')->with('message', 'Login Failed');
+// }]);
 
 // Authentication routes...
+//Route::get('auth/login', array('as' => 'auth/login', function () { }))->before('guest');
 Route::get('auth/login', 'Auth\AuthController@getLogin');
 Route::post('auth/login', 'Auth\AuthController@postLogin');
 Route::get('auth/logout', 'Auth\AuthController@getLogout');
