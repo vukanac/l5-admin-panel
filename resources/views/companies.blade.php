@@ -35,4 +35,39 @@
     </div>
 
     <!-- TODO: Current Companies -->
+    <!-- Current Companies -->
+    @if (count($companies) > 0)
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                List of companies
+            </div>
+
+            <div class="panel-body">
+                <table class="table table-striped company-table">
+
+                    <!-- Table Headings -->
+                    <thead>
+                        <th>Company</th>
+                        <th>&nbsp;</th>
+                    </thead>
+
+                    <!-- Table Body -->
+                    <tbody>
+                        @foreach ($companies as $company)
+                            <tr>
+                                <!-- Company Name -->
+                                <td class="table-text">
+                                    <div>{{ $company->name }}</div>
+                                </td>
+
+                                <td>
+                                    <!-- TODO: Delete Button -->
+                                </td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    @endif
 @endsection

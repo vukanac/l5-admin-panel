@@ -18,7 +18,11 @@ use Illuminate\Http\Request;
  * Display All Companies
  */
 Route::get('/', function () {
-	return view('companies');
+    $companies = Company::orderBy('created_at', 'asc')->get();
+
+    return view('companies', [
+        'companies' => $companies
+    ]);
 });
 
 /**
