@@ -88,6 +88,10 @@ Route::post('password/email', 'Auth\PasswordController@postEmail');
 Route::get('password/reset/{token}', 'Auth\PasswordController@getReset');
 Route::post('password/reset', 'Auth\PasswordController@postReset');
 
+// Company routes
+Route::get('/companies', 'CompanyController@index');
+Route::post('/company', 'CompanyController@store');
+Route::delete('/company/{company}', 'CompanyController@destroy');
 
 Route::get('dashboard', function () {
 	$user = new \App\User(array('name' => 'John'));
