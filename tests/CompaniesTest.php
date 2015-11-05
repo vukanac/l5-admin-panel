@@ -217,4 +217,15 @@ class CompaniesTest extends TestCase
              ->assertResponseStatus(403);
     }
 
+    public function testShowOneCompanyDetails()
+    {
+        // $companies = factory(App\Company::class, 3)->make();
+        // dd($companies->toArray());
+        $company = factory(App\Company::class)->create();
+
+        $this->get('/companies/'.$company->id)
+             ->see($company->id);
+             // ->see($company->name);
+    }
+
 }

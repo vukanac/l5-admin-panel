@@ -19,48 +19,8 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-/**
- * Display All Companies
- */
-Route::get('companies', function () {
-    $companies = Company::orderBy('created_at', 'asc')->get();
 
-    return view('companies', [
-        'companies' => $companies
-    ]);
-});
 
-/**
- * Add A New Company
- */
-Route::post('/company', function (Request $request) {
-    $validator = Validator::make($request->all(), [
-        'name' => 'required|max:255',
-    ]);
-
-    if ($validator->fails()) {
-        return redirect('/companies')
-            ->withInput()
-            ->withErrors($validator);
-    }
-
-    // Create The Company...
-
-    $company = new Company;
-    $company->name = $request->name;
-    $company->save();
-
-    return redirect('/companies');
-});
-
-/**
- * Delete An Existing Company
- */
-Route::delete('/company/{id}', function ($id) {
-    Company::findOrFail($id)->delete();
-
-    return redirect('/companies');
-});
 
 // Route::get('/', ['middleware' => 'auth', function () {
 //     return Redirect::to('users.dashboard')->with('message', 'Login Failed');
@@ -90,8 +50,12 @@ Route::post('password/reset', 'Auth\PasswordController@postReset');
 
 // Company routes
 Route::get('/companies', 'CompanyController@index');
+Route::get('/company/{company}', 'CompanyController@show');
 Route::post('/company', 'CompanyController@store');
 Route::delete('/company/{company}', 'CompanyController@destroy');
+
+
+
 
 Route::get('dashboard', function () {
 	$user = new \App\User(array('name' => 'John'));
