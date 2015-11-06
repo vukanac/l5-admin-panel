@@ -57,17 +57,10 @@ class CompanyController extends Controller
             'name' => 'required|max:255',
         ]);
 
-        if ($validator->fails()) {
-            return redirect('/companies')
-                ->withInput()
-                ->withErrors($validator);
-        }
-
         // Create The Company...
-
-        $company = new Company;
-        $company->name = $request->name;
-        $company->save();
+        $request->user()->companies()->create([
+            'name' => $request->name,
+        ]);
 
         return redirect('/companies');
     }
