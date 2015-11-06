@@ -16,15 +16,17 @@ class CompanyController extends Controller
     /**
      * Display a listing of the resource.
      *
+     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         /**
          * Display All Companies
          */
-        $companies = Company::orderBy('created_at', 'asc')->get();
+        //$companies = Company::orderBy('created_at', 'asc')->get();
         //$companies = Company::orderBy('company_name', 'asc')->get();
+        $companies = Company::where('user_id', $request->user()->id)->get();
 
         return view('companies.index', [
             'companies' => $companies
