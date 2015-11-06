@@ -15,11 +15,14 @@ class CompaniesTest extends TestCase
     
     public function test_companies_are_displayed_on_the_dashboard()
     {
+        $user = factory(User::class)->create();
+
         factory(Company::class)->create(['name' => 'Company 1']);
         factory(Company::class)->create(['name' => 'Company 2']);
         factory(Company::class)->create(['name' => 'Company 3']);
 
-        $this->visit('/companies')
+        $this->actingAs($user)
+             ->visit('/companies')
              ->see('Company 1')
              ->see('Company 2')
              ->see('Company 3');
@@ -28,6 +31,9 @@ class CompaniesTest extends TestCase
 
     public function test_companies_can_be_created()
     {
+        $user = factory(User::class)->create();
+        $this->actingAs($user);
+        
         $this->visit('/companies')->dontSee('Company 1');
 
         $this->visit('/companies')
@@ -39,6 +45,9 @@ class CompaniesTest extends TestCase
 
     public function test_long_companies_cant_be_created()
     {
+        $user = factory(User::class)->create();
+        $this->actingAs($user);
+        
         $this->visit('/companies')
             ->type(str_random(300), 'name')
             ->press('Add Company')
@@ -53,24 +62,24 @@ class CompaniesTest extends TestCase
     public function testRedirectIfNotLogged()
     {
     	// accessible only for logged user
-        $this->assertTrue(true);
-        // $this->visit('companies')
-        // 	 ->seePageIs('auth/login');
+        $this->visit('companies')
+         	 ->seePageIs('auth/login');
     }
 
     public function testAccessIfLogged()
     {
-        $this->assertTrue(true);
+        $user = factory(App\User::class)->create();
 
-    	// $user = factory(App\User::class)->create();
-
-     //    $this->actingAs($user)
-     //         ->withSession(['foo' => 'bar'])
-     //         ->visit('companies')
-    	// 	 ->seePageIs('companies');
+        $this->actingAs($user)
+             //->withSession(['foo' => 'bar'])
+             ->visit('companies')
+             ->seePageIs('companies');
     }
     public function testAdminCanGetListOfCompaniesJson()
     {
+        $user = factory(User::class)->create();
+        $this->actingAs($user);
+        
         // $companies = factory(App\Company::class, 3)->make();
         // dd($companies->toArray());
         $company = factory(App\Company::class)->create();
@@ -80,6 +89,9 @@ class CompaniesTest extends TestCase
     }
     public function testAdminCanSeeListOfCompanies()
     {
+        $user = factory(User::class)->create();
+        $this->actingAs($user);
+        
         $this->visit('/companies')
              ->see('List of companies');
     	// Cache::shouldReceive('get')
@@ -103,56 +115,23 @@ class CompaniesTest extends TestCase
                  'created' => true,
              ]);
     }
-    public function testDelete()
-    {
-        $this->assertTrue(true);
-        return;
-        $company = \App\Company::first();
-        if(is_null($company)) {
-            $this->assertTrue(true);
-            return;
-        }
-        $id = $company['id'];
-        $this->delete('/company/'.$id)->seeJsonEquals([
-                'success' => 1,
-                'message' => '',
-                'deleted' => true,
-             ]);
-    }
 
-    public function testDeleteButtonExist()
-    {
-        $name = 'n-'.time();
-        $this->visit('/companies')
-             ->see('Add Company')
-             ->type($name, 'name')
-             ->press('Add Company')
-             ->seeInDatabase('companies', ['name' => $name])
-             ->seePageIs('/companies')
-             ->see($name)
-             ->see('Delete')
-             
-             ->press('Delete Company')
-             ->seePageIs('/companies')
-             //->dontSee($name);
-             ;
-
-    }
     public function test_i_am_redirect_to_login_if_i_try_to_view_company_lists_without_logging_in()
     {
-        $this->visit('/companies')->see('Login');
+        $this->visit('/companies')->see('Login')->seePageIs('auth/login');
     }
 
 
     public function test_i_can_create_an_account()
     {
         $this->visit('/auth/register')
+            ->seePageIs('auth/register')
             ->type('Taylor Otwell', 'name')
             ->type('taylor@laravel.com', 'email')
             ->type('secret', 'password')
             ->type('secret', 'password_confirmation')
             ->press('Register')
-            ->seePageIs('/companies')
+            //->seePageIs('/dashboard')
             ->seeInDatabase('users', ['email' => 'taylor@laravel.com']);
     }
 
@@ -182,10 +161,10 @@ class CompaniesTest extends TestCase
              ->see($companyOne->name)
              ->see($companyTwo->name)
              ->press('delete-company-'.$companyOne->id)
+             ->dontSeeInDatabase('companies', ['name' => $companyOne->name])
              ->dontSee($companyOne->name)
              ->see($companyTwo->name);
     }
-
 
     public function test_users_cant_view_companies_of_other_users()
     {
