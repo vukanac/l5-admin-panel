@@ -6,12 +6,27 @@ use App\Company;
 use App\Http\Requests;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Repositories\CompanyRepository;
 
 class CompanyController extends Controller
 {
-    public function __construct()
+    /**
+     * The task repository instance.
+     *
+     * @var CompanyRepository
+     */
+    protected $companies;
+
+    /**
+     * Create a new controller instance.
+     *
+     * @param  CompanyRepository  $companies
+     * @return void
+     */
+    public function __construct(CompanyRepository $companies)
     {
         $this->middleware('auth');
+        $this->companies = $companies;
     }
     /**
      * Display a listing of the resource.
@@ -26,7 +41,8 @@ class CompanyController extends Controller
          */
         //$companies = Company::orderBy('created_at', 'asc')->get();
         //$companies = Company::orderBy('company_name', 'asc')->get();
-        $companies = Company::where('user_id', $request->user()->id)->get();
+        //$companies = Company::where('user_id', $request->user()->id)->get();
+        $companies = $this->companies->forUser($request->user());
 
         return view('companies.index', [
             'companies' => $companies
