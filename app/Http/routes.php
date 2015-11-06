@@ -54,28 +54,3 @@ Route::get('/company/{company}', 'CompanyController@show');
 Route::post('/company', 'CompanyController@store');
 Route::delete('/company/{company}', 'CompanyController@destroy');
 
-
-
-
-Route::get('dashboard', function () {
-	$user = new \App\User(array('name' => 'John'));
-    return view('dashboard')->with('user', $user);
-});
-
-// Using A Route Closure...
-
-Route::get('profile', ['middleware' => 'auth', function() {
-	// Only authenticated users may enter...
-	return view('profile'); 
-}]);
-Route::get('profile', [
-    'middleware' => 'auth',
-    'uses' => 'ProfileController@show'
-]);
-
-// Using A Controller...
-
-Route::get('profile', [
-    'middleware' => 'auth',
-    'uses' => 'ProfileController@show'
-]);
