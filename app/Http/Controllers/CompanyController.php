@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use Validator;
 use App\Company;
 use App\Http\Requests;
 use Illuminate\Http\Request;
@@ -51,11 +50,10 @@ class CompanyController extends Controller
      */
     public function store(Request $request)
     {
-        //
         /**
          * Add A New Company
          */
-        $validator = Validator::make($request->all(), [
+        $this->validate($request, [
             'name' => 'required|max:255',
         ]);
 
