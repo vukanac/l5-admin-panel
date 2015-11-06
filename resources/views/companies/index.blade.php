@@ -1,5 +1,3 @@
-<!-- resources/views/companies.blade.php -->
-
 @extends('layouts.app')
 
 @section('content')
@@ -66,7 +64,7 @@
                                         {{ csrf_field() }}
                                         {{ method_field('DELETE') }}
 
-                                        <button id="delete-company-{{ $companyOne->id }}">Delete Company</button>
+                                        <button id="delete-company-{{ $company->id }}">Delete Company</button>
                                     </form>
                                 </td>
                             </tr>
