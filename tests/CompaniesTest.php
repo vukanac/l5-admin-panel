@@ -17,9 +17,14 @@ class CompaniesTest extends TestCase
     {
         $user = factory(User::class)->create();
 
-        factory(Company::class)->create(['name' => 'Company 1']);
-        factory(Company::class)->create(['name' => 'Company 2']);
-        factory(Company::class)->create(['name' => 'Company 3']);
+        // factory(Company::class)->create(['name' => 'Company 1']);
+        // factory(Company::class)->create(['name' => 'Company 2']);
+        // factory(Company::class)->create(['name' => 'Company 3']);
+
+        $user->companies()->save($companyOne = factory(Company::class)->create(['name' => 'Company 1']));
+        $user->companies()->save($companyTwo = factory(Company::class)->create(['name' => 'Company 2']));
+        $user->companies()->save($companyThree = factory(Company::class)->create(['name' => 'Company 3']));
+
 
         $this->actingAs($user)
              ->visit('/companies')
@@ -74,46 +79,6 @@ class CompaniesTest extends TestCase
              //->withSession(['foo' => 'bar'])
              ->visit('companies')
              ->seePageIs('companies');
-    }
-    public function testAdminCanGetListOfCompaniesJson()
-    {
-        $user = factory(User::class)->create();
-        $this->actingAs($user);
-        
-        // $companies = factory(App\Company::class, 3)->make();
-        // dd($companies->toArray());
-        $company = factory(App\Company::class)->create();
-
-        $this->get('/companies')
-             ->see($company->name);
-    }
-    public function testAdminCanSeeListOfCompanies()
-    {
-        $user = factory(User::class)->create();
-        $this->actingAs($user);
-        
-        $this->visit('/companies')
-             ->see('List of companies');
-    	// Cache::shouldReceive('get')
-     //                ->once()
-     //                ->with('key')
-     //                ->andReturn('value');
-
-     //    $this->visit('/companies')->see('value');
-
-
-    	// $this->visit('companies')
-    	//      ->seePageIs('companies')
-    	// 	 ->see('List of comapnies');
-    }
-    public function testNew()
-    {
-        $this->assertTrue(true);
-        return;
-        $this->post('/company', ['name' => 'Tierre'])
-             ->seeJson([
-                 'created' => true,
-             ]);
     }
 
     public function test_i_am_redirect_to_login_if_i_try_to_view_company_lists_without_logging_in()
@@ -179,8 +144,7 @@ class CompaniesTest extends TestCase
              ->see($companyOne->name)
              ->dontSee($companyTwo->name);
     }
-
-
+    
     public function test_users_cant_delete_companies_of_other_users()
     {
         $this->withoutMiddleware();
