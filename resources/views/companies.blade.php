@@ -61,7 +61,13 @@
                                 </td>
 
                                 <td>
-                                    <!-- TODO: Delete Button -->
+                                    <!-- Delete Button -->
+                                    <form action="/company/{{ $company->id }}" method="POST">
+                                        {{ csrf_field() }}
+                                        {{ method_field('DELETE') }}
+
+                                        <button id="delete-company-{{ $companyOne->id }}">Delete Company</button>
+                                    </form>
                                 </td>
                             </tr>
                         @endforeach
