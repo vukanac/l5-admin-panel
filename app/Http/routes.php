@@ -50,7 +50,7 @@ Route::post('password/reset', 'Auth\PasswordController@postReset');
 
 // Company routes
 Route::get('/companies', 'CompanyController@index');
-Route::get('/company/{company}', 'CompanyController@show');
+Route::get('/company/{id}', 'CompanyController@show');
 Route::post('/company', 'CompanyController@store');
-Route::delete('/company/{company}', 'CompanyController@destroy');
+Route::delete('/company/{id}', 'CompanyController@destroy');
 
