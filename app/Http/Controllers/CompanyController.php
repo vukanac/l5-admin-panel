@@ -103,12 +103,10 @@ class CompanyController extends Controller
      */
     public function destroy(Company $company)
     {
-        
-        /**
-         * Delete An Existing Company
-         */
+        $this->authorize('destroy', $company);
 
         $company->delete();
+        
         return redirect('/companies');
     }
     
