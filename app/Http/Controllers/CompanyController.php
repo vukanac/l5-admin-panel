@@ -11,7 +11,7 @@ use App\Repositories\CompanyRepository;
 class CompanyController extends Controller
 {
     /**
-     * The task repository instance.
+     * The company repository instance.
      *
      * @var CompanyRepository
      */
@@ -96,6 +96,22 @@ class CompanyController extends Controller
     }
 
     /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Company $company
+     * @return \Illuminate\Http\Response
+     */
+    public function edit(Request $request, Company $company)
+    {
+        $user = $request->user();
+
+        if ($user->cannot('update-company', $company)) {
+            return 'User is not authorized to edit company';
+        }
+        return 'Edit company: ' . $company->id . ' with name: ' . $company->name;
+    }
+
      * Remove the specified resource from storage.
      *
      * @param  \App\Company  $company

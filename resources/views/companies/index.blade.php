@@ -66,7 +66,16 @@
                                     <div>{{ $company->name }}</div>
                                 </td>
 
+                                @can('update-company', $company)
                                 <td>
+                                    <!-- Edit Button -->
+                                    <form action="{{ url('company/edit/'.$company->id) }}" method="GET">
+                                        {{ csrf_field() }}
+                                        {{ method_field('GET') }}
+
+                                        <button id="edit-company-{{ $company->id }}">Edit</button>
+                                    </form>
+                                @endcan
                                 @can('destroy-company', $company)
                                     <!-- Delete Button -->
                                     <form action="/company/{{ $company->id }}" method="POST">

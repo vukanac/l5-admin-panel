@@ -33,7 +33,10 @@ class AuthServiceProvider extends ServiceProvider
 
         $this->registerPolicies($gate);
 
-        //
+
+        $gate->define('update-company', function ($user, \App\Company $company) {
+            return ($user->id === $company->user_id);
+        });
         $gate->define('destroy-company', function ($user, \App\Company $company) {
             return ($user->id === $company->user_id);
         });
