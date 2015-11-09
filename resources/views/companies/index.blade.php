@@ -59,6 +59,7 @@
                                 </td>
 
                                 <td>
+                                @can('destroy-company', $company)
                                     <!-- Delete Button -->
                                     <form action="/company/{{ $company->id }}" method="POST">
                                         {{ csrf_field() }}
@@ -67,6 +68,7 @@
                                         <button id="delete-company-{{ $company->id }}">Delete Company</button>
                                     </form>
                                 </td>
+                                @endcan
                             </tr>
                         @endforeach
                     </tbody>

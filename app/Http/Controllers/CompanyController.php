@@ -103,7 +103,7 @@ class CompanyController extends Controller
      */
     public function destroy(Company $company)
     {
-        $this->authorize('destroy', $company);
+        $this->authorize('destroy-company', $company);
 
         $company->delete();
         

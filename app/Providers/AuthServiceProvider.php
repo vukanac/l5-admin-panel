@@ -16,7 +16,7 @@ class AuthServiceProvider extends ServiceProvider
      * @var array
      */
     protected $policies = [
-        Company::class => CompanyPolicy::class,
+        // Company::class => CompanyPolicy::class,
     ];
 
     /**
@@ -27,8 +27,15 @@ class AuthServiceProvider extends ServiceProvider
      */
     public function boot(GateContract $gate)
     {
+        // Note:
+        // $user <--- logged user, global var
+        // ----------------------------------
+
         $this->registerPolicies($gate);
 
         //
+        $gate->define('destroy-company', function ($user, \App\Company $company) {
+            return ($user->id === $company->user_id);
+        });
     }
 }
