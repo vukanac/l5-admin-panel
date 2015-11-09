@@ -50,6 +50,7 @@ To do anything user must be logged.
 2. Register page
 3. Dashboard
 4. Logout
+6. Prepare Master Layout for Localization
 
 
 ## Install

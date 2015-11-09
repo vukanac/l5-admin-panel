@@ -31,9 +31,9 @@
     </style>
 
     <script>
-    //     $(function () {
-    //         $('#company-name').focus();
-    //     });
+        $(function () {
+            $('#company-name').focus();
+        });
     </script>
 </head>
 
@@ -49,12 +49,31 @@
                         <span class="icon-bar"></span>
                     </button>
 
-                    <!-- <a class="navbar-brand" href="#">Companies List</a> -->
+                    <a class="navbar-brand" href="#">Licence Manager</a>
                 </div>
 
                 <div id="navbar" class="navbar-collapse collapse">
                     <ul class="nav navbar-nav">
-                        &nbsp;
+                        @if (Auth::guest())
+                            <li><a href="{{ url('/') }}">{{ trans('menu.home') }}</a></li>
+                        @else
+                            <li><a href="{{ url('/companies') }}">{{ trans('menu.companies') }}</a></li>
+                        @endif
+                    </ul>
+                    <ul class="nav navbar-nav navbar-right">
+                        @if (Auth::guest())
+                            <li><a href="{{ url('/auth/login') }}">{{ trans('menu.login') }}</a></li>
+                            <li><a href="{{ url('/auth/register') }}">{{ trans('menu.register') }}</a></li>
+                        @else
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown"
+                                    role="button" aria-expanded="false"
+                                >{{ Auth::user()->name }} <span class="caret"></span></a>
+                                <ul class="dropdown-menu" role="menu">
+                                    <li><a href="{{ url('/auth/logout') }}">{{ trans('menu.logout') }}</a></li>
+                                </ul>
+                            </li>
+                        @endif
                     </ul>
                 </div>
             </div>
