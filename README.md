@@ -24,6 +24,13 @@ To do anything user must be logged.
 3. composer install
 4. npm install
 
+### While in Dev
+
+Awesome feature is to use Elixir to run PhpUnit on every file save!
+Just from terminal run:
+
+    $ gulp tdd
+
 
 ## Authentication
 
