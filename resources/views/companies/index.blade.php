@@ -64,8 +64,12 @@
                                 <!-- Company Name -->
                                 <td class="table-text">
                                     <div>
+                                        @can('show-company', $company)
                                         <a href="{{ url('company/'.$company->id) }}">{{ $company->name }}
                                         </a>
+                                        @else
+                                        <span>{{ $company->name }}</span>
+                                        @endcan
                                     </div>
                                 </td>
 
