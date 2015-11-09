@@ -8,6 +8,7 @@
         <!-- Display Validation Errors -->
         @include('common.errors')
 
+        @can('create-company')
         <!-- New Company Form -->
         <form action="/company" method="POST" class="form-horizontal">
             {{ csrf_field() }}
@@ -30,6 +31,13 @@
                 </div>
             </div>
         </form>
+        @else
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <p>User is not authorised to Create Company.</p>
+            </div>
+        </div>
+        @endcan
     </div>
 
     <!-- TODO: Current Companies -->

@@ -37,5 +37,9 @@ class AuthServiceProvider extends ServiceProvider
         $gate->define('destroy-company', function ($user, \App\Company $company) {
             return ($user->id === $company->user_id);
         });
+        $gate->define('create-company', function ($user) {
+            $adminName = 'Vladimir Vukanac';
+            return ($user->name === $adminName);
+        });
     }
 }
