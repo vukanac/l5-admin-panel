@@ -86,11 +86,17 @@ class CompanyController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  Company $company
+     * @param  \App\Company $company
      * @return \Illuminate\Http\Response
      */
-    public function show(Company $company)
+    public function show(Request $request, Company $company)
     {
+        try{
+            $this->authorize('show-company', $company);
+        } catch (\Exception $e) {
+            return redirect('/companies');
+        }
+
         $id = $company->id;
         return 'show company: ' . $id . ' with name: ' . $company->name;
     }

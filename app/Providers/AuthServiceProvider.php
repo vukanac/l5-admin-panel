@@ -44,5 +44,8 @@ class AuthServiceProvider extends ServiceProvider
             $adminName = 'Vladimir Vukanac';
             return ($user->name === $adminName);
         });
+        $gate->define('show-company', function ($user, $company) {
+            return ($user->id === $company->user_id);
+        });
     }
 }

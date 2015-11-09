@@ -63,7 +63,10 @@
                             <tr>
                                 <!-- Company Name -->
                                 <td class="table-text">
-                                    <div>{{ $company->name }}</div>
+                                    <div>
+                                        <a href="{{ url('company/'.$company->id) }}">{{ $company->name }}
+                                        </a>
+                                    </div>
                                 </td>
 
                                 @can('update-company', $company)
