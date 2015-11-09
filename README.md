@@ -3,6 +3,41 @@
 Administration panel for managing Software Licences of clients
 
 
+## Why Laravel
+
+[http://taylorotwell.com/on-community/](http://taylorotwell.com/on-community/)
+ - This week, Laravel became the most popular PHP project on Github - Jan 5th 2014.
+
+We want to develop company and ourselves with the latest technology used
+and with community offered - **Best practices**.
+
+Laravel provides nice already built structure for every developer to be on
+same page. We don't have to discover hot-water, nor America :)
+
+Authentication, Sessions, Testing, ORM, Queue, Emailer, ... all are
+already there!
+
+Laravel is proclaimed to be RAD tool. - **Build fast, refactor later**.
+
+**Has Database migrations and seeders out of the box**
+
+- track DB changes in VCS (git)!
+- don't have to use anything else but php to develop app.
+
+For fast RAD start with Laravel's Eloquent ORM that implements Active Record pattern
+and later you can use Doctrine 2 that implements Data Mapper pattern.
+
+Blade template engine is nice and clean (~twig).
+
+By default it will return JSON response.
+
+
+### Alternatives
+
+* ZF2 - waithing for ZF3
+* Symphony 2
+* CakePhp - no migration out of the box
+
 
 ## Goal
 
