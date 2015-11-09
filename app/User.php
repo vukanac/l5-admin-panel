@@ -44,4 +44,30 @@ class User extends Model implements AuthenticatableContract,
     {
         return $this->hasMany(Company::class);
     }
+
+    public function isSuperAdmin()
+    {
+        return $this->role === 'owner';
+    }
+
+    public function isAdmin()
+    {
+        return $this->role === 'admin';
+    }
+
+    public function isManager()
+    {
+        return $this->role === 'manager';
+    }
+
+    public function isAuthor()
+    {
+        return $this->role === 'author';
+    }
+
+    public function isVisitor()
+    {
+        return $this->role === 'visitor';
+    }
+
 }
