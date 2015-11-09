@@ -34,7 +34,7 @@ By default it will return JSON response.
 
 ### Alternatives
 
-* ZF2 - waithing for ZF3
+* ZF2 - waiting for ZF3
 * Symphony 2
 * CakePhp - no migration out of the box
 
