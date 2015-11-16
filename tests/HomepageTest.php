@@ -22,6 +22,10 @@ class HomepageTest extends TestCase
     {
         $this->visit('auth/logout')
              ->visit('/')
-             ->see('Welcome');
+             ->see('Welcome')
+             ->see('Please login with provided credentials.')
+             ->see('Login')
+             ->see('Register')
+             ->dontSee('Logout');
     }
 }
