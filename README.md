@@ -1,6 +1,68 @@
 # l5-admin-panel
 
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+**Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
+
+- [Goal](#goal)
+- [Parts](#parts)
+- [Install](#install)
+  - [While in Dev](#while-in-dev)
+- [Authentication](#authentication)
+- [Why Laravel](#why-laravel)
+  - [Alternatives](#alternatives)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
+
 Administration panel for managing Software Licences of clients
+
+Why it is in Laravel, read section below [Why Laravel](#why-laravel)
+
+
+## Goal
+
+To do anything user must be logged.
+
+
+## Parts
+
+1. Login page
+2. Register page
+3. Dashboard
+4. Logout
+5. Companies (List, Add, Delete, Show Details)
+6. Prepare Master Layout for Localization
+7. Prepare Companies part layout for Localization
+
+
+## Install
+
+1. create db
+2. change .env
+3. composer install
+4. npm install
+
+
+### While in Dev
+
+Awesome feature is to use Elixir to run PhpUnit on every file save!
+Just from terminal run:
+
+    $ gulp tdd
+
+
+## Authentication
+
+1. Add Auth routes
+2. Add views: register, login
+3. `$php artisan migrate`
+4. - test is it working: Register new user "John Doe, ...."
+5. Add missing `home`
+6. Instead of `home` set `dashboard` to be first page after login
+7. Add functional tests: Register, LoginLogout, Logout redirect.
+
+
 
 
 ## Why Laravel
@@ -38,42 +100,3 @@ By default it will return JSON response.
 * Symphony 2
 * CakePhp - no migration out of the box
 
-
-## Goal
-
-To do anything user must be logged.
-
-
-## Parts
-
-1. Login page
-2. Register page
-3. Dashboard
-4. Logout
-6. Prepare Master Layout for Localization
-
-
-## Install
-
-1. create db
-2. change .env
-3. composer install
-4. npm install
-
-### While in Dev
-
-Awesome feature is to use Elixir to run PhpUnit on every file save!
-Just from terminal run:
-
-    $ gulp tdd
-
-
-## Authentication
-
-1. Add Auth routes
-2. Add views: register, login
-3. `$php artisan migrate`
-4. - test is it working: Register new user "John Doe, ...."
-5. Add missing `home`
-6. Instead of `home` set `dashboard` to be first page after login
-7. Add functional tests: Register, LoginLogout, Logout redirect.
