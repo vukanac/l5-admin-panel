@@ -118,6 +118,7 @@ class CompanyController extends Controller
         return 'Edit company: ' . $company->id . ' with name: ' . $company->name;
     }
 
+    /*
      * Remove the specified resource from storage.
      *
      * @param  \App\Company  $company
