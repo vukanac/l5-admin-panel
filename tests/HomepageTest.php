@@ -11,13 +11,6 @@ class HomepageTest extends TestCase
      *
      * @return void
      */
-    // public function testHomepageIsLoginForm()
-    // {
-    //     $this->visit('auth/logout')
-    //     	 ->visit('/')
-    //     	 ->seePageIs('auth/login');
-    //          ->see('Welcome');
-    // }
     public function testWelcome()
     {
         $this->visit('auth/logout')

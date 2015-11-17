@@ -5,13 +5,13 @@
         <div class="col-sm-offset-2 col-sm-8">
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    {{ trans('welcome-to') }}
-                    <br/><strong>{{ trans('welcome-to-admin-panel') }}</strong>
+                    {{ trans('messages.welcome-to') }}
+                    <br/><strong>{{ trans('messages.welcome-to-admin-panel') }}</strong>
                 </div>
 
                 <div class="panel-body">
-                    {{ trans('welcome-to-desc') }}
-                    <br/>{{ trans('welcome-to-pls-login') }}
+                    {{ trans('messages.welcome-to-desc') }}
+                    <br/>{{ trans('messages.welcome-to-pls-login') }}
                     <p>
                         <a href="auth/register">{{ trans('menu.register') }} </a>
                         |
