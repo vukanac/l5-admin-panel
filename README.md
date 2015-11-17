@@ -41,15 +41,11 @@ To do anything user must be logged.
 1. create db
 2. change .env
 3. composer install
-4. npm install
+4. php artisan key:generate
+5. php artisan migrate
 
+Read section below [While in Dev](#while-in-dev).
 
-### While in Dev
-
-Awesome feature is to use Elixir to run PhpUnit on every file save!
-Just from terminal run:
-
-    $ gulp tdd
 
 
 ## Authentication
@@ -99,4 +95,78 @@ By default it will return JSON response.
 * ZF2 - waiting for ZF3
 * Symphony 2
 * CakePhp - no migration out of the box
+
+
+
+## Workflow
+
+### While in Dev
+
+#### Install
+
+
+Install tools:
+
+1. npm install
+
+
+Awesome feature is to use Elixir to run PhpUnit on every file save!
+
+Add to gulpfile.js inside :
+
+    elixir(function(mix) {
+        // other actions
+        mix.phpUnit();
+    });
+
+Just from terminal run:
+
+    $ gulp tdd
+
+
+### Jenkins
+
+Tricky part is how to set all required to run and successfully pass all test on some remote machine.
+
+Most of required steps are written in `build.xml` - an Ant Build script.
+
+1. Add job to jenkins
+2. git repo:
+	* !remember the url used!, <- will be needed for hook
+	* set credentials (add new SSH user/pass)
+	* set remote (origin, in my case p1 or demo),
+	* set branch (master or develop)
+3. Trigger: SCM, empty params <- should be empty, triggered by hook
+4. Build:
+	4.1. shell script: `php -r copy('.env.example', '.env');`
+	4.2. ant target: `get.composer vendor`
+	4.3. shell script:
+		4.3.1 `php artisan key:generate`
+		4.3.2 `php artisan migrate`
+	4.4. ant target: `full-build-parallel`
+
+
+Test it you can run it from terminal on local dev or on remote machine, and result should be the same:
+
+    $ ant
+
+or specific target only:
+
+    $ ant phpunit
+
+
+#### Database on Jenkins
+
+On build server login with jenkins user, and login to mysql, and create new user 'homestead'.
+
+    mysql -u root -pPASSWORD
+    
+    CREATE USER 'homestead'@'localhost' IDENTIFIED BY 'secret';
+    GRANT ALL PRIVILEGES ON homestead.* TO 'homestead'@'localhost';
+    FLUSH PRIVILEGES;
+
+    CREATE DATABASE homestead;
+
+
+This `homestead` user and database schema will be used for testing and build on Jenkins CI.
 
