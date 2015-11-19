@@ -89,7 +89,7 @@ class CompanyController extends Controller
      * @param  \App\Company $company
      * @return \Illuminate\Http\Response
      */
-    public function show(Request $request, Company $company)
+    public function show(Company $company)
     {
         try{
             $this->authorize('show-company', $company);
