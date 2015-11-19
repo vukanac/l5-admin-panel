@@ -91,14 +91,11 @@ class CompanyController extends Controller
      */
     public function show(Company $company)
     {
-        try{
-            $this->authorize('show-company', $company);
-        } catch (\Exception $e) {
-            return redirect('/companies');
-        }
-
-        $id = $company->id;
-        return 'show company: ' . $id . ' with name: ' . $company->name;
+        $this->authorize('show-company', $company);
+        
+        return view('companies.show', [
+            'company' => $company
+        ]);
     }
 
     /**
