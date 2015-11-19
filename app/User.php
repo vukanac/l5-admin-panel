@@ -65,9 +65,9 @@ class User extends Model implements AuthenticatableContract,
         return $this->role === 'author';
     }
 
-    public function isVisitor()
+    public function isViewer()
     {
-        return $this->role === 'visitor';
+        return $this->role === 'viewer';
     }
 
 }

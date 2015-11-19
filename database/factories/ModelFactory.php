@@ -45,6 +45,12 @@ $factory->defineAs(App\User::class, 'author', function (Faker\Generator $faker) 
     return array_merge($user, ['role' => 'author']);
 });
 
+$factory->defineAs(App\User::class, 'viewer', function (Faker\Generator $faker) use ($factory) {
+    $user = $factory->raw(App\User::class);
+
+    return array_merge($user, ['role' => 'viewer']);
+});
+
 
 $factory->define(App\Company::class, function (Faker\Generator $faker) {
     return [
