@@ -56,12 +56,14 @@
         </collector>
 
         <!--  Configuration of generation process -->
-        <generator output="${basedir}/docs">
+        <generator output="${basedir}/build/api/docs">
             <!-- @output - (Base-)Directory to store output data in -->
 
             <!-- A generation process consists of one or more build tasks and of (optional) enrich sources -->
 
             <enrich base="${basedir}/build">
+            <!-- <enrich base="${basedir}/build/logs"> -->
+
                 <!-- @base - (Base-)Directory of datafiles used for enrich process -->
 
                 <!--<source type="...">-->
@@ -82,9 +84,18 @@
                 <source type="git">
                     <git binary="git" />
                     <history enabled="true" limit="15" cache="${phpDox.project.workdir}/gitlog.xml" />
+                    <!-- <history enabled="true" limit="15" /> -->
                 </source>
                 
+                
 
+                <source type="build" />
+
+
+                <source type="checkstyle" />
+                <!-- alternative checkstyler to support phpcs xml output -->
+                <!-- <source type="phpcs" /> -->
+                
                 <!-- PHP Code Sniffer findings -->
                 <!--
                 <source type="phpcs">
@@ -92,7 +103,9 @@
                 </source>
                 -->
 
+
                 <!-- PHPMessDetector -->
+                <source type="pmd" />
                 <!--
                 <source type="pmd">
                     <file name="pmd.xml" />
@@ -100,17 +113,19 @@
                 -->
 
                 <!-- PHPUnit Coverage XML -->
-                <!-- <source type="phpunit">  -->
+                <source type="phpunit"> 
+                    <coverage path="coverage/xml" />
                     <!-- <coverage path="" /> -->
                     <!--           @path - the directory where the xml code coverage report can be found -->
                     <!--<filter directory="${phpDox.project.source}" />-->
                     <!-- @directory - path of the phpunit config whitelist filter directory -->
-                <!--</source>-->
-                <!--
+                </source>
+                
                 <source type="phpunit">
                     <filter directory="${phpDox.project.source}" />
                 </source>
-                -->
+                
+
 
             </enrich>
 
@@ -126,8 +141,8 @@
                 <template dir="${phpDox.home}/templates/html" />
                 <file extension="xhtml" />
             </build>
+            <!-- <build engine="xml" enabled="true" output="xml" /> -->
 
         </generator>
     </project>
-
 </phpdox>
