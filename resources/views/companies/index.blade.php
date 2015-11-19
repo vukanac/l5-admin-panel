@@ -1,6 +1,12 @@
 @extends('layouts.app')
 
 @section('content')
+    <div class="container">
+        <div class="col-sm-offset-2 col-sm-8">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    New Company
+                </div>
 
     <!-- Bootstrap Boilerplate... -->
 
@@ -40,7 +46,6 @@
         @endcan
     </div>
 
-    <!-- TODO: Current Companies -->
     <!-- Current Companies -->
     @if (count($companies) > 0)
         <div class="panel panel-default">
@@ -100,4 +105,7 @@
             </div>
         </div>
     @endif
+        </div>
+    </div>
+
 @endsection
