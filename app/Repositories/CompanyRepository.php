@@ -15,8 +15,7 @@ class CompanyRepository
      */
     public function forUser(User $user)
     {
-        return Company::where('user_id', $user->id)
-                    ->orderBy('created_at', 'asc')
+        return Company::orderBy('created_at', 'asc')
                     ->get();
     }
 }

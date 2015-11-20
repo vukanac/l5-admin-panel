@@ -39,7 +39,7 @@ class CompaniesTest extends \TestCase
              ->seePageIs('auth/login');
     }
 
-    public function test_users_cant_view_companies_of_other_users()
+    public function test_users_can_view_companies_of_other_users()
     {
         $userOne = factory(User::class, 'admin')->create();
         $userTwo = factory(User::class, 'admin')->create();
@@ -50,7 +50,7 @@ class CompaniesTest extends \TestCase
         $this->actingAs($userOne)
              ->visit('/companies')
              ->see($companyOne->name)
-             ->dontSee($companyTwo->name);
+             ->see($companyTwo->name);
     }
 
 }
