@@ -1,5 +1,7 @@
 <?php
 
+namespace Tests;
+
 use App\User;
 use App\Company;
 
@@ -7,7 +9,7 @@ use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
-class CompanyCreateFormTest extends TestCase
+class CompanyCreateFormTest extends \TestCase
 {
     use DatabaseTransactions;
 
