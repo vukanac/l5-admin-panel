@@ -39,7 +39,7 @@ class CompanyDetailsTest extends \TestCase
              ->see($company->id);
     }
 
-    public function test_users_cant_view_companiy_details_of_other_users()
+    public function test_users_can_view_company_details_created_by_other_users()
     {
         $userOne = factory(User::class, 'admin')->create();
         $userTwo = factory(User::class, 'admin')->create();
@@ -49,6 +49,6 @@ class CompanyDetailsTest extends \TestCase
 
         $this->actingAs($userOne)
              ->get('/company/'.$companyTwo->id)
-             ->assertResponseStatus(403);
+             ->assertResponseStatus(200);
     }
 }

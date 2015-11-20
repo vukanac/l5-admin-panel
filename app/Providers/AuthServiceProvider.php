@@ -34,18 +34,19 @@ class AuthServiceProvider extends ServiceProvider
         $this->registerPolicies($gate);
 
 
+        $gate->define('show-company', function ($user, $company) {
+            // user can see company details if:
+            // - anyone
+            return true;
+        });
         $gate->define('update-company', function ($user, \App\Company $company) {
             return ($user->id === $company->user_id);
         });
         $gate->define('destroy-company', function ($user, \App\Company $company) {
-            return ($user->id === $company->user_id);
+            return true;
         });
         $gate->define('create-company', function ($user) {
             return !$user->isViewer();
-        });
-
-        $gate->define('show-company', function ($user, $company) {
-            return ($user->id === $company->user_id);
         });
     }
 }
