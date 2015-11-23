@@ -25,6 +25,7 @@ class CompanyCreateFormTest extends \TestCase
 
         $this->visit('/companies')
             ->dontSee('User is not authorised to Create Company.')
+            ->see('Add Company') // button
             ->type($companyName, 'name')
             ->press('Add Company')
             ->see($companyName)
