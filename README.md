@@ -170,3 +170,4 @@ On build server login with jenkins user, and login to mysql, and create new user
 
 This `homestead` user and database schema will be used for testing and build on Jenkins CI.
 
+Other solution, may be better and faster, for this problem is to instead of mysql use **in memmory SqLite**.
