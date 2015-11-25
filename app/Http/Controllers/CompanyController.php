@@ -109,13 +109,38 @@ class CompanyController extends Controller
     {
         $user = $request->user();
 
+        // if ($user->cannot('update-company', $company)) {
+        //     return 'User is not authorized to edit company';
+        // }
+        $this->authorize('update-company', $company);
+
+        return view('companies.edit', [
+            'company' => $company
+        ]);
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Company $company
+     * @return \Illuminate\Http\Response
+     */
+    public function update(Request $request, $company)
+    {
+        $user = $request->user();
         if ($user->cannot('update-company', $company)) {
             return 'User is not authorized to edit company';
         }
-        return 'Edit company: ' . $company->id . ' with name: ' . $company->name;
+
+        $company->name = $request->name;
+
+        $company->save();
+
+        return redirect('/companies');
     }
 
-    /*
+    /**
      * Remove the specified resource from storage.
      *
      * @param  \App\Company  $company
