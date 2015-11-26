@@ -304,6 +304,7 @@
          unless="phploc.done"
          description="Measure project size using PHPLOC and print human readable output. Intended for usage on the command line.">
   <exec executable="cmd" taskname="phploc">
+   <arg value="/C"/>
    <arg value="${phploc}" />
    <arg value="--count-tests" />
    <arg value="--exclude" />
@@ -320,6 +321,7 @@
          depends="prepare"
          description="Calculate software metrics using PHP_Depend and log result in XML format. Intended for usage within a continuous integration environment.">
   <exec executable="cmd.exe" taskname="pdepend">
+   <arg value="/C"/>
    <arg value="${pdepend}" />
    <arg value="--jdepend-xml=${basedir}/build/logs/jdepend.xml" />
    <arg value="--jdepend-chart=${basedir}/build/pdepend/dependencies.svg" />
@@ -335,6 +337,7 @@
          unless="phpmd.done"
          description="Perform project mess detection using PHPMD and print human readable output. Intended for usage on the command line before committing.">
   <exec executable="cmd" taskname="phpmd">
+   <arg value="/C"/>
    <arg value="${phpmd}" />
    <arg path="${basedir}/app" />
    <arg value="text" />
@@ -350,6 +353,7 @@
          unless="phpcs.done"
          description="Find coding standard violations using PHP_CodeSniffer and print human readable output. Intended for usage on the command line before committing.">
   <exec executable="cmd.exe" taskname="phpcs">
+   <arg value="/C"/>
    <arg value="${phpcs}" />
    <arg value="--standard=PSR2" />
    <arg value="--extensions=php" />
@@ -365,6 +369,7 @@
          unless="phpcpd.done"
          description="Find duplicate code using PHPCPD and print human readable output. Intended for usage on the command line before committing.">
   <exec executable="cmd.exe" taskname="phpcpd">
+   <arg value="/C"/>
    <arg path="${phpcpd}" />
    <arg value="--exclude" />
    <arg path="vendor/" />
@@ -378,7 +383,9 @@
          unless="phpunit.done"
          depends="prepare"
          description="Run unit tests with PHPUnit">
+  <echo>${phpunit}</echo>
   <exec executable="cmd.exe" resultproperty="result.phpunit" taskname="phpunit">
+   <arg value="/C"/>
    <arg value="${phpunit}"/>
    <arg value="--configuration"/>
    <arg path="${basedir}/phpunit.xml"/>
@@ -392,6 +399,7 @@
          depends="prepare"
          description="Run unit tests with PHPUnit (without generating code coverage reports)">
   <exec executable="cmd.exe" failonerror="true" taskname="phpunit">
+   <arg value="/C"/>
    <arg value="${phpunit}"/>
    <arg value="--configuration"/>
    <arg path="${basedir}/phpunit.xml"/>
@@ -440,6 +448,4 @@
 </exec>
 </target>
 
-
 </project>
-
