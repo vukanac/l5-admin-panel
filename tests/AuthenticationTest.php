@@ -3,13 +3,13 @@
 namespace Tests;
 
 use App\User;
-use App\Company;
 
+use TestCase;
 use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
-class AuthenticationTest extends \TestCase
+class AuthenticationTest extends TestCase
 {
     use DatabaseTransactions;
 

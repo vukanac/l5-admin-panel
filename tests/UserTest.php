@@ -3,7 +3,6 @@
 namespace Tests;
 
 use App\User;
-use App\Company;
 use App\Role;
 
 use TestCase;
@@ -51,7 +50,7 @@ class UserTest extends TestCase
     public function test_every_user_can_get_other_user_details()
     {
         $owner = factory(User::class, 'owner')->create();
-        $roles = \App\Role::getAllRoles();
+        $roles = Role::getAllRoles();
 
         foreach($roles as $role) {
             $user = factory(User::class, $role)->create();

@@ -5,11 +5,12 @@ namespace Tests;
 use App\User;
 use App\Company;
 
+use TestCase;
 use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
-class CompanyDetailsTest extends \TestCase
+class CompanyDetailsTest extends TestCase
 {
     use DatabaseTransactions;
     

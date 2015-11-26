@@ -56,7 +56,6 @@ class AuthServiceProvider extends ServiceProvider
         $gate->define('create-user', function ($user) {
             return ($user->isOwner() || !$user->isViewer());
         });
-        
 
         // end
     }
