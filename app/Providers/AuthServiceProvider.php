@@ -50,7 +50,7 @@ class AuthServiceProvider extends ServiceProvider
         });
 
         // User
-        $gate->define('show-user', function ($user, \App\User $watchingUser) {
+        $gate->define('show-user', function ($user) {
             return true;
         });
         $gate->define('create-user', function ($user) {

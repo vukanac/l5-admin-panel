@@ -40,9 +40,9 @@ class AuthenticationTest extends TestCase
     public function testLoginLogout()
     {
         $origPass = '321654';
-        $user = factory(User::class, 'admin')->create(
-            ['password' => bcrypt($origPass)]
-            );
+        $user = factory(User::class, 'admin')->create([
+            'password' => bcrypt($origPass)
+            ]);
         
         $this->seeInDatabase('users', [
             'email' => $user->email,

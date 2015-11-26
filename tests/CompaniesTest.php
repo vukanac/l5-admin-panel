@@ -45,5 +45,4 @@ class CompaniesTest extends TestCase
              ->see($companyOne->name)
              ->see($companyTwo->name);
     }
-
 }

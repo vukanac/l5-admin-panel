@@ -107,7 +107,7 @@ class CompanyController extends Controller
      */
     public function edit(Request $request, Company $company)
     {
-        $user = $request->user();
+        // $user = $request->user();
 
         // if ($user->cannot('update-company', $company)) {
         //     return 'User is not authorized to edit company';
@@ -153,6 +153,5 @@ class CompanyController extends Controller
         $company->delete();
         
         return redirect('/companies');
-    }
-    
+    }   
 }
