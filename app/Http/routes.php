@@ -55,3 +55,6 @@ Route::post('/company', 'CompanyController@store');
 Route::delete('/company/{company}', 'CompanyController@destroy');
 Route::get('/company/{company}/edit', 'CompanyController@edit');
 Route::put('/company/{company}', 'CompanyController@update');
+
+// User routes
+Route::get('/users', 'UserController@index');

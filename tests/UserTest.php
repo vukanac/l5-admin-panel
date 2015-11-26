@@ -32,4 +32,16 @@ class UserTest extends TestCase
              ->see('Users');
     }
     
+    public function test_user_can_see_list_of_users()
+    {
+        $userOne = factory(User::class, 'admin')->create();
+        $userTwo = factory(User::class, 'admin')->create();
+        $userThree = factory(User::class, 'admin')->create();
+
+        $this->actingAs($userTwo)
+             ->visit('/users')
+             ->see($userOne->name)
+             ->see($userTwo->name)
+             ->see($userThree->name);
+    }
 }
