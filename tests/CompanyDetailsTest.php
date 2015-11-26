@@ -26,6 +26,8 @@ class CompanyDetailsTest extends \TestCase
 
         $this->actingAs($user)
              ->get('/company/'.$badId)
+             ->see('errors.not-found')
+             ->see('Not found.')
              ->assertResponseStatus(404);
     }
 

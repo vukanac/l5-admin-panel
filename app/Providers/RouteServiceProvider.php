@@ -2,7 +2,9 @@
 
 namespace App\Providers;
 
+use App;
 use Illuminate\Routing\Router;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
 
 class RouteServiceProvider extends ServiceProvider
@@ -24,9 +26,9 @@ class RouteServiceProvider extends ServiceProvider
      */
     public function boot(Router $router)
     {
-        //
-        $router->model('company', \App\Company::class);
-
+        $router->model('company', \App\Company::class, function() {
+            throw new NotFoundHttpException;
+        });
         parent::boot($router);
     }
 
