@@ -39,11 +39,8 @@ class CompanyController extends Controller
         /**
          * Display All Companies
          */
-        //$companies = Company::orderBy('created_at', 'asc')->get();
-        //$companies = Company::orderBy('company_name', 'asc')->get();
-        //$companies = Company::where('user_id', $request->user()->id)->get();
-        $companies = $this->companies->forUser($request->user());
-
+        $companies = $this->companies->getAllOrderedByNameAsc();
+        
         return view('companies.index', [
             'companies' => $companies
         ]);

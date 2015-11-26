@@ -15,7 +15,20 @@ class CompanyRepository
      */
     public function forUser(User $user)
     {
-        return Company::orderBy('created_at', 'asc')
+        return Company::where('user_id', $user->id)
+                    ->orderBy('created_at', 'asc')
+                    ->get();
+    }
+
+
+    /**
+     * Get all of the companies rodered by name ascending
+     *
+     * @return Collection
+     */
+    public function getAllOrderedByNameAsc()
+    {
+        return Company::orderBy('name', 'asc')
                     ->get();
     }
 }
