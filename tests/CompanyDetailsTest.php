@@ -14,12 +14,7 @@ class CompanyDetailsTest extends TestCase
 {
     use DatabaseTransactions;
     
-    /**
-     * A basic test example.
-     *
-     * @return void
-     */
-    public function testIdNotExist()
+    public function test_id_not_exist()
     {
         $badId = '0';
         
@@ -32,7 +27,7 @@ class CompanyDetailsTest extends TestCase
              ->assertResponseStatus(404);
     }
 
-    public function testShowOneCompanyDetails()
+    public function test_show_one_company_details()
     {
         $user = factory(User::class, 'admin')->create();
         $user->companies()->save($company = factory(Company::class)->create());

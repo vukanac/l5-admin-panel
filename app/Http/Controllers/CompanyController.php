@@ -31,10 +31,9 @@ class CompanyController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request)
+    public function index()
     {
         /**
          * Display All Companies
@@ -98,17 +97,11 @@ class CompanyController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \Illuminate\Http\Request  $request
      * @param  \App\Company $company
      * @return \Illuminate\Http\Response
      */
-    public function edit(Request $request, Company $company)
+    public function edit(Company $company)
     {
-        // $user = $request->user();
-
-        // if ($user->cannot('update-company', $company)) {
-        //     return 'User is not authorized to edit company';
-        // }
         $this->authorize('update-company', $company);
 
         return view('companies.edit', [
@@ -123,18 +116,15 @@ class CompanyController extends Controller
      * @param  \App\Company $company
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $company)
+    public function update(Request $request, Company $company)
     {
-        $user = $request->user();
-        if ($user->cannot('update-company', $company)) {
-            return 'User is not authorized to edit company';
-        }
+        // $this->authorize('update-company', $company);
 
-        $company->name = $request->name;
+        // $company->name = $request->name;
 
-        $company->save();
+        // $company->save();
 
-        return redirect('/companies');
+        // return redirect('/companies');
     }
 
     /**
@@ -150,5 +140,5 @@ class CompanyController extends Controller
         $company->delete();
         
         return redirect('/companies');
-    }   
+    }
 }

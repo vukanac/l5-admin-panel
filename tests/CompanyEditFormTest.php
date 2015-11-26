@@ -20,27 +20,22 @@ class CompanyEditFormTest extends TestCase
      *
      * @return void
      */
-    public function testExample()
+    public function test_should_see_edit_button()
     {
-        $this->assertTrue(true);
-    }
-
-    public function test_edit_own_company()
-    {
-        //$this->withoutMiddleware();
-
         $user = factory(User::class, 'admin')->create();
         $company = factory(Company::class)->create();
 
         $user->companies()->save($company);
-        
 
         $this->actingAs($user)
              ->seeInDatabase('companies', [
                 'id' => $company->id,
                 'name' => $company->name,
-                ]);
-    //          ->visit('/company/'.$company->id.'/edit')
+                ])
+             ->visit('/companies')
+             ->see('edit-company-'.$company->id);
+    }
+
     //          ->see($company->name)
     //          ->type('Company New Name', 'name')
     //          ->press('Save Edit')
