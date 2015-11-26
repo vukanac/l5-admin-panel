@@ -31,14 +31,6 @@ class CompaniesTest extends \TestCase
              ->see('Company 3');
     }
 
-    public function test_i_am_redirect_to_login_if_i_try_to_view_company_lists_without_logging_in()
-    {
-        // accessible only for logged user
-        $this->visit('/companies')
-             ->see('Login')
-             ->seePageIs('auth/login');
-    }
-
     public function test_users_can_view_companies_of_other_users()
     {
         $userOne = factory(User::class, 'admin')->create();

@@ -96,4 +96,20 @@ class AuthenticationTest extends \TestCase
         
     // }
 
+    public function test_i_am_redirect_to_login_if_i_try_to_view_companies_list_without_logging_in()
+    {
+        // accessible only for logged user
+        $this->visit('/companies')
+             ->see('Login')
+             ->seePageIs('auth/login');
+    }
+
+    public function test_i_am_redirect_to_login_if_i_try_to_view_users_list_without_logging_in()
+    {
+        // accessible only for logged user
+        $this->visit('/users')
+             ->see('Login')
+             ->seePageIs('auth/login');
+    }
+
 }
