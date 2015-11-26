@@ -24,16 +24,6 @@ class UserTest extends TestCase
     - VIEWER: can view. 
     */
 
-    public function test_user_option_is_in_menu()
-    {
-        $user = factory(User::class, 'admin')->create();
-
-        $this->actingAs($user)
-             ->visit('/')
-             ->see('menu.users')
-             ->see('Users');
-    }
-
     public function test_user_can_see_list_of_users()
     {
         $userOne = factory(User::class, 'admin')->create();

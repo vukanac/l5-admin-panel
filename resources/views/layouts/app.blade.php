@@ -58,7 +58,7 @@
                             <li><a href="{{ url('/') }}">{{ trans('menu.home') }}</a></li>
                         @else
                             <li><a href="{{ url('/users') }}" title="menu.users">{{ trans('menu.users') }}</a></li>
-                            <li><a href="{{ url('/companies') }}">{{ trans('menu.companies') }}</a></li>
+                            <li><a href="{{ url('/companies') }}" title="menu.companies">{{ trans('menu.companies') }}</a></li>
                         @endif
                     </ul>
                     <ul class="nav navbar-nav navbar-right">
