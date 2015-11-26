@@ -96,4 +96,15 @@ class UserTest extends TestCase
 
     }
 
+    public function test_viewer_cannot_create_user()
+    {
+        $viewer = factory(User::class, 'viewer')->create();
+            
+        $this->actingAs($viewer)
+             ->visit('/users')
+             ->see('You are not authorised to Create User.')
+             ->dontSee('Add User');
+
+    }
+
 }
