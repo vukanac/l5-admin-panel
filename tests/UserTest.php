@@ -1,9 +1,12 @@
 <?php
 
+namespace Tests;
+
 use App\User;
 use App\Company;
 use App\Role;
 
+use TestCase;
 use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
