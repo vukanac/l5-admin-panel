@@ -46,7 +46,8 @@ class AuthServiceProvider extends ServiceProvider
             return true;
         });
         $gate->define('create-company', function ($user) {
-            return !$user->isViewer();
+            $cannot = $user->isViewer() || $user->isManager();
+            return !$cannot;
         });
 
         // User

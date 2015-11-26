@@ -1,0 +1,55 @@
+<?php
+
+namespace Tests;
+
+use App\User;
+use App\Company;
+use App\Role;
+
+use TestCase;
+use Illuminate\Foundation\Testing\WithoutMiddleware;
+use Illuminate\Foundation\Testing\DatabaseMigrations;
+use Illuminate\Foundation\Testing\DatabaseTransactions;
+
+class UserCompanyTest extends TestCase
+{
+
+    use DatabaseTransactions;
+
+    /*
+    - everyone can see user details
+    - owner can CRUD user
+    - ADMIN: can  perform all action in the account. Also create
+             new users with different level of access
+    - MANAGER: can perform all action in the account, except insert
+             and suspend a company.
+    - VIEWER: can view. 
+    */
+
+    public function test_every_user_role_can_see_any_company_details()
+    {
+        // create owner with company
+        $owner = factory(User::class, 'owner')->create();
+        $owner->companies()->save($company = factory(Company::class)->create());
+
+        $roles = Role::getAllRoles();
+
+        foreach($roles as $role) {
+            $user = factory(User::class, $role)->create();
+            $this->actingAs($user)
+                 ->get('/company/'.$company->id)
+                 ->assertResponseStatus(200);    
+        }
+
+    }
+    
+    public function test_manager_cannot_create_company()
+    {
+        $manager = factory(User::class, 'manager')->create();
+        
+        $this->actingAs($manager)
+             ->visit('/companies')
+             ->see('User is not authorised to Create Company.')
+             ->dontSee('Add Company');
+    }
+}
