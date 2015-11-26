@@ -43,4 +43,20 @@ class UserController extends Controller
         ]);
     }
 
+
+    /**
+     * Show the profile for the given user.
+     *
+     * @param  User  $user
+     * @return \Illuminate\Http\Response
+     */
+    public function show(User $user)
+    {
+        $this->authorize('show-user', $user);
+
+        return view('users.show', [
+            'user' => $user
+        ]);
+    }
+
 }

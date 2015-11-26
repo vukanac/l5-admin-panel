@@ -58,3 +58,4 @@ Route::put('/company/{company}', 'CompanyController@update');
 
 // User routes
 Route::get('/users', 'UserController@index');
+Route::get('/user/{user}', 'UserController@show');

@@ -48,5 +48,11 @@ class AuthServiceProvider extends ServiceProvider
         $gate->define('create-company', function ($user) {
             return !$user->isViewer();
         });
+
+        $gate->define('show-user', function ($user, \App\User $watchingUser) {
+            return true;
+        });
+
+        // end
     }
 }

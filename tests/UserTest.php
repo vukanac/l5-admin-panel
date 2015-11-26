@@ -31,7 +31,7 @@ class UserTest extends TestCase
              ->see('menu.users')
              ->see('Users');
     }
-    
+
     public function test_user_can_see_list_of_users()
     {
         $userOne = factory(User::class, 'admin')->create();
@@ -44,4 +44,39 @@ class UserTest extends TestCase
              ->see($userTwo->name)
              ->see($userThree->name);
     }
+
+    public function test_every_user_can_see_other_user_details()
+    {
+        $owner = factory(User::class, 'owner')->create();
+        $roles = \App\Role::getAllRoles();
+
+        foreach($roles as $role) {
+            file_put_contents('test.log', json_encode($role), FILE_APPEND);
+            $user = factory(User::class, $role)->create();
+            $this->actingAs($user)
+                 ->get('/user/'.$owner->id)
+                 ->assertResponseStatus(200);
+        }
+        
+    }
+
+    public function test_user_can_see_profile()
+    {
+        $user = factory(User::class, 'admin')->create();
+        $this->actingAs($user)
+             ->visit('/user/'.$user->id)
+             ->see($user->name);
+        
+    }
+
+    public function test_user_can_see_other_user_details()
+    {
+        $owner = factory(User::class, 'owner')->create();
+        $user = factory(User::class, 'admin')->create();
+        $this->actingAs($user)
+             ->visit('/user/'.$owner->id)
+             ->see($owner->name);
+        
+    }
+
 }
