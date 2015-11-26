@@ -57,6 +57,7 @@
                         @if (Auth::guest())
                             <li><a href="{{ url('/') }}">{{ trans('menu.home') }}</a></li>
                         @else
+                            <li><a href="{{ url('/users') }}" title="menu.users">{{ trans('menu.users') }}</a></li>
                             <li><a href="{{ url('/companies') }}">{{ trans('menu.companies') }}</a></li>
                         @endif
                     </ul>

@@ -6,6 +6,7 @@ return [
     'register' => 'Register',
     'home' => 'Home',
     'dashboard' => 'Dashboard',
+    'users' => 'Users',
     'companies' => 'Companies',
     'reports' => 'Reports',
 ];
