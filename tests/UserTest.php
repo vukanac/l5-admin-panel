@@ -48,14 +48,14 @@ class UserTest extends TestCase
              ->see($userThree->name);
     }
 
-    public function test_every_user_can_see_other_user_details()
+    public function test_every_user_can_get_other_user_details()
     {
         $owner = factory(User::class, 'owner')->create();
         $roles = \App\Role::getAllRoles();
 
         foreach($roles as $role) {
-            file_put_contents('test.log', json_encode($role), FILE_APPEND);
             $user = factory(User::class, $role)->create();
+            
             $this->actingAs($user)
                  ->get('/user/'.$owner->id)
                  ->assertResponseStatus(200);
@@ -66,6 +66,7 @@ class UserTest extends TestCase
     public function test_user_can_see_profile()
     {
         $user = factory(User::class, 'admin')->create();
+        
         $this->actingAs($user)
              ->visit('/user/'.$user->id)
              ->see($user->name);
@@ -76,10 +77,23 @@ class UserTest extends TestCase
     {
         $owner = factory(User::class, 'owner')->create();
         $user = factory(User::class, 'admin')->create();
+
         $this->actingAs($user)
              ->visit('/user/'.$owner->id)
              ->see($owner->name);
         
+    }
+
+    public function test_owner_can_create_user()
+    {
+        $owner = factory(User::class, 'owner')->create();
+        $user = factory(User::class)->make();
+            
+        $this->actingAs($owner)
+             ->visit('/users')
+             ->dontSee('You are not authorised to Create User.')
+             ->see('Add User');
+
     }
 
 }

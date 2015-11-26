@@ -33,7 +33,7 @@ class AuthServiceProvider extends ServiceProvider
 
         $this->registerPolicies($gate);
 
-
+        // Company
         $gate->define('show-company', function ($user, $company) {
             // user can see company details if:
             // - anyone
@@ -49,9 +49,14 @@ class AuthServiceProvider extends ServiceProvider
             return !$user->isViewer();
         });
 
+        // User
         $gate->define('show-user', function ($user, \App\User $watchingUser) {
             return true;
         });
+        $gate->define('create-user', function ($user) {
+            return ($user->isOwner());
+        });
+        
 
         // end
     }
