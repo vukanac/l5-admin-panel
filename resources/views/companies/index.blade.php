@@ -93,7 +93,9 @@
                                         {{ csrf_field() }}
                                         {{ method_field('DELETE') }}
 
-                                        <button id="delete-company-{{ $company->id }}">Delete Company</button>
+                                        <button id="delete-company-{{ $company->id }}"
+                                            class="btn btn-default"
+                                            >Delete</button>
                                     </form>
                                     @else
                                         &nbsp;
