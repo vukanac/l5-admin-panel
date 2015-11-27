@@ -43,15 +43,4 @@ class CompanyCreateFormTest extends TestCase
             ->press('Add Company')
             ->see('Whoops!');
     }
-
-    public function test_companies_cannot_be_created_by_viewer()
-    {
-        $user = factory(User::class, 'viewer')->create();
-        $this->actingAs($user);
-        
-        $this->visit('/companies')
-            ->see('User is not authorised to Create Company.')
-            ->dontSee('Add Company');
-    }
-
 }
