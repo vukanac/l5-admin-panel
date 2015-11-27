@@ -118,13 +118,13 @@ class CompanyController extends Controller
      */
     public function update(Request $request, Company $company)
     {
-        // $this->authorize('update-company', $company);
+        $this->authorize('update-company', $company);
 
-        // $company->name = $request->name;
+        $company->name = $request->name;
 
-        // $company->save();
+        $company->save();
 
-        // return redirect('/companies');
+        return redirect('/companies');
     }
 
     /**

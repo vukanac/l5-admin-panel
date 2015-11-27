@@ -79,12 +79,11 @@
                                 <td>
                                     @can('update-company', $company)
                                     <!-- Edit Button -->
-                                    <form action="{{ url('company/edit/'.$company->id) }}" method="GET">
-                                        {{ csrf_field() }}
-                                        {{ method_field('GET') }}
-
-                                        <button id="edit-company-{{ $company->id }}">Edit</button>
-                                    </form>
+                                    <a href="company/{{ $company->id }}/edit"
+                                        id="edit-company-{{ $company->id }}"
+                                        class="btn btn-default"
+                                        role="button"
+                                        >Edit</a>
                                     @else
                                         &nbsp;
                                     @endcan
