@@ -11,7 +11,7 @@ use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
-class UserCompanyTest extends TestCase
+class UserRolesCompanyTest extends TestCase
 {
 
     use DatabaseTransactions;
@@ -42,14 +42,19 @@ class UserCompanyTest extends TestCase
         }
 
     }
-    
-    public function test_manager_cannot_create_company()
+
+
+    public function test_admin_should_see_edit_company_button()
     {
-        $manager = factory(User::class, 'manager')->create();
+        $owner = factory(User::class, 'owner')->create();
+        $owner->companies()->save($company = factory(Company::class)->create());
+
+        $user = factory(User::class, 'admin')->create();
         
-        $this->actingAs($manager)
+        $this->actingAs($user)
              ->visit('/companies')
-             ->see('User is not authorised to Create Company.')
-             ->dontSee('Add Company');
+             ->see($company->name)
+             ->see('edit-company-'.$company->id);
+        
     }
 }

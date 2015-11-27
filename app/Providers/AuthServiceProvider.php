@@ -40,7 +40,8 @@ class AuthServiceProvider extends ServiceProvider
             return true;
         });
         $gate->define('update-company', function ($user, \App\Company $company) {
-            return ($user->id === $company->user_id);
+            $can = $user->isAdmin();
+            return $can;
         });
         $gate->define('destroy-company', function ($user, \App\Company $company) {
             return true;

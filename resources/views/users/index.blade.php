@@ -101,6 +101,18 @@
                                     </td>
 
                                     <td>
+                                        @can('update-user', $user)
+
+                                        <div style="float: left;">
+                                        <!-- Edit Button -->
+                                        <form action="{{ url('user/'.$user->id.'/edit') }}" method="GET">
+                                            <button id="edit-user-{{ $user->id }}">Edit</button>
+                                        </form>
+                                        </div>
+                                        @else
+                                        &nbsp;
+                                        @endcan
+
                                         &nbsp;
                                         
                                     </td>
