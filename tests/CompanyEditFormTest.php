@@ -15,11 +15,6 @@ class CompanyEditFormTest extends TestCase
     use DatabaseTransactions;
     
 
-    /**
-     * A basic test example.
-     *
-     * @return void
-     */
     public function test_should_see_edit_button()
     {
         $user = factory(User::class, 'admin')->create();
@@ -34,15 +29,5 @@ class CompanyEditFormTest extends TestCase
                 ])
              ->visit('/companies')
              ->see('edit-company-'.$company->id);
-    }
-
-    //          ->see($company->name)
-    //          ->type('Company New Name', 'name')
-    //          ->press('Save Edit')
-    //          ->seeInDatabase('companies', [
-    //             'id' => $company->id,
-    //             'name' => 'Company New Name'
-    //             ]);
-        
     }
 }
