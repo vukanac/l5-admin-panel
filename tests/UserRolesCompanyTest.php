@@ -85,6 +85,16 @@ class UserRolesCompanyTest extends TestCase
              ->dontSee('Add Company');
     }
 
+    public function test_manager_can_edit_company()
+    {
+        $owner = factory(User::class, 'owner')->create();
+        $owner->companies()->save($company = factory(Company::class)->create());
+
+        $user = factory(User::class, 'manager')->create();
+        $this->actingAs($user)
+             ->visit('/companies')
+             ->see('edit-company-'.$company->id);
+    }
 
     public function test_manager_can_delete_company()
     {
