@@ -16,7 +16,7 @@ class CompanyCreateFormTest extends TestCase
 
     public function test_companies_can_be_created_from_form()
     {
-        $user = factory(User::class, 'admin')->create();
+        $user = factory(User::class, 'owner')->create();
         $this->actingAs($user);
         
         $companyName = 'Company ' . time();
@@ -35,7 +35,7 @@ class CompanyCreateFormTest extends TestCase
 
     public function test_long_companies_cant_be_created()
     {
-        $user = factory(User::class, 'admin')->create();
+        $user = factory(User::class, 'owner')->create();
         $this->actingAs($user);
         
         $this->visit('/companies')

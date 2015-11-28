@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests;
+namespace Test;
 
 use App\User;
 use App\Company;
@@ -14,6 +14,11 @@ use Illuminate\Foundation\Testing\DatabaseTransactions;
 class UserRolesUserTest extends TestCase
 {
 
+    use DatabaseTransactions;
+
+    /**
+     * Owner to create new users 
+     */
     public function test_owner_can_create_user()
     {
         $owner = factory(User::class, 'owner')->create();
@@ -36,4 +41,17 @@ class UserRolesUserTest extends TestCase
              ->dontSee('Add User');
 
     }
+
+
+
+    public function test_owner_can_create_admin()
+    {
+        $user = factory(User::class, 'admin')->create();
+        $this->actingAs($user)
+            ->visit('/users')
+            ->dontSee('User is not authorised to Create User.')
+            ->see('Add User')
+            ->see('Role');
+    }
+
 }
