@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests;
+namespace Test;
 
 use App\User;
 use App\Company;
@@ -73,6 +73,27 @@ class UserRolesCompanyTest extends TestCase
         $this->actingAs($user)
              ->visit('/companies')
              ->see('Delete')
+             ->see('delete-company-'.$company->id);
+    }
+
+    public function test_manager_cannot_create_company()
+    {
+        $user = factory(User::class, 'manager')->create();
+        $this->actingAs($user)
+             ->visit('/companies')
+             ->see('User is not authorised to Create Company.')
+             ->dontSee('Add Company');
+    }
+
+
+    public function test_manager_can_delete_company()
+    {
+        $owner = factory(User::class, 'owner')->create();
+        $owner->companies()->save($company = factory(Company::class)->create());
+
+        $user = factory(User::class, 'manager')->create();
+        $this->actingAs($user)
+             ->visit('/companies')
              ->see('delete-company-'.$company->id);
     }
 
