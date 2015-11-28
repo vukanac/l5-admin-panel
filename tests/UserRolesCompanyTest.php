@@ -117,5 +117,16 @@ class UserRolesCompanyTest extends TestCase
              ->dontSee('Add Company');
     }
 
+    public function test_author_cannot_edit_company_dont_see_edit_company_button()
+    {
+        $owner = factory(User::class, 'owner')->create();
+        $owner->companies()->save($company = factory(Company::class)->create());
+
+        $user = factory(User::class, 'author')->create();
+        $this->actingAs($user)
+             ->visit('/companies')
+             ->dontSee('edit-company-'.$company->id);
+    }
+
 
 }
