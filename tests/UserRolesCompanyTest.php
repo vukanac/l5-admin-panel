@@ -42,7 +42,16 @@ class UserRolesCompanyTest extends TestCase
         }
     }
 
-    public function test_admin_should_see_edit_company_button()
+    public function test_admin_can_create_company()
+    {
+        $user = factory(User::class, 'admin')->create();
+        $this->actingAs($user)
+             ->visit('/companies')
+             ->dontSee('User is not authorised to Create Company.')
+             ->see('Add Company');
+    }
+
+    public function test_admin_can_edit_company()
     {
         $owner = factory(User::class, 'owner')->create();
         $owner->companies()->save($company = factory(Company::class)->create());
@@ -53,15 +62,6 @@ class UserRolesCompanyTest extends TestCase
              ->visit('/companies')
              ->see($company->name)
              ->see('edit-company-'.$company->id);
-    }
-
-    public function test_admin_can_create_company()
-    {
-        $user = factory(User::class, 'admin')->create();
-        $this->actingAs($user)
-             ->visit('/companies')
-             ->dontSee('User is not authorised to Create Company.')
-             ->see('Add Company');
     }
 
     public function test_admin_can_delete_company()
