@@ -17,7 +17,7 @@ class CompanyDeleteTest extends TestCase
     
     public function test_users_can_delete_a_company()
     {
-        $user = factory(User::class, 'admin')->create();
+        $user = factory(User::class, 'owner')->create();
 
         $user->companies()->save($companyOne = factory(Company::class)->create());
         $user->companies()->save($companyTwo = factory(Company::class)->create());
@@ -36,8 +36,8 @@ class CompanyDeleteTest extends TestCase
     {
         // $this->withoutMiddleware();
 
-        $userOne = factory(User::class, 'admin')->create();
-        $userTwo = factory(User::class, 'admin')->create();
+        $userOne = factory(User::class, 'owner')->create();
+        $userTwo = factory(User::class, 'owner')->create();
 
         $userOne->companies()->save($companyOne = factory(Company::class)->create());
         $userTwo->companies()->save($companyTwo = factory(Company::class)->create());
