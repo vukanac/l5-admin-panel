@@ -108,4 +108,14 @@ class UserRolesCompanyTest extends TestCase
     }
 
 
+    public function test_author_cannot_create_company()
+    {
+        $user = factory(User::class, 'author')->create();
+        $this->actingAs($user)
+             ->visit('/companies')
+             ->see('User is not authorised to Create Company.')
+             ->dontSee('Add Company');
+    }
+
+
 }
