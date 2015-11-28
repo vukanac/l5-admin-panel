@@ -43,7 +43,6 @@ class UserRolesCompanyTest extends TestCase
 
     }
 
-
     public function test_admin_should_see_edit_company_button()
     {
         $owner = factory(User::class, 'owner')->create();
@@ -57,4 +56,15 @@ class UserRolesCompanyTest extends TestCase
              ->see('edit-company-'.$company->id);
         
     }
+
+    public function test_admin_can_create_company()
+    {
+        $user = factory(User::class, 'admin')->create();
+        $this->actingAs($user)
+             ->visit('/companies')
+             ->dontSee('User is not authorised to Create Company.')
+             ->see('Add Company');
+    }
+
+
 }
