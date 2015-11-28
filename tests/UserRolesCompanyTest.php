@@ -128,5 +128,16 @@ class UserRolesCompanyTest extends TestCase
              ->dontSee('edit-company-'.$company->id);
     }
 
+    public function test_author_cannot_delete_company()
+    {
+        $owner = factory(User::class, 'owner')->create();
+        $owner->companies()->save($company = factory(Company::class)->create());
+
+        $user = factory(User::class, 'author')->create();
+        $this->actingAs($user)
+             ->visit('/companies')
+             ->dontSee('delete-company-'.$company->id);
+    }
+
 
 }

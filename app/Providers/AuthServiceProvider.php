@@ -45,7 +45,8 @@ class AuthServiceProvider extends ServiceProvider
             return $can || !$cannot;
         });
         $gate->define('destroy-company', function ($user, \App\Company $company) {
-            return true;
+            $cannot = $user->isAuthor();
+            return !$cannot;
         });
         $gate->define('create-company', function ($user) {
             $cannot = $user->isViewer() || $user->isAuthor() || $user->isManager();
