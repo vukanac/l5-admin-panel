@@ -72,7 +72,6 @@ class UserRolesCompanyTest extends TestCase
         $user = factory(User::class, 'admin')->create();
         $this->actingAs($user)
              ->visit('/companies')
-             ->see('Delete')
              ->see('delete-company-'.$company->id);
     }
 
@@ -107,6 +106,21 @@ class UserRolesCompanyTest extends TestCase
              ->see('delete-company-'.$company->id);
     }
 
+    public function test_manager_cannot_suspend_company()
+    {
+        // Stop here and mark this test as incomplete.
+        $this->markTestIncomplete(
+            'This test has not been implemented yet.'
+        );
+
+        $owner = factory(User::class, 'owner')->create();
+        $owner->companies()->save($company = factory(Company::class)->create());
+
+        $user = factory(User::class, 'manager')->create();
+        $this->actingAs($user)
+             ->visit('/company/'.$company->id.'/edit')
+             ->dontSee('suspend-company-'.$company->id);
+    }
 
     public function test_author_cannot_create_company()
     {
@@ -139,5 +153,22 @@ class UserRolesCompanyTest extends TestCase
              ->dontSee('delete-company-'.$company->id);
     }
 
+    public function test_author_cannot_access_edit_company_page()
+    {
+        // Stop here and mark this test as incomplete.
+        $this->markTestIncomplete(
+            'This test has not been implemented yet.'
+        );
+
+        $owner = factory(User::class, 'owner')->create();
+        $owner->companies()->save($company = factory(Company::class)->create());
+
+        $user = factory(User::class, 'author')->create();
+        $this->actingAs($user)
+             ->visit('/company/'.$company->id.'/edit')
+             ->assertResponseStatus(403)
+             ->dontSee('Suspend Company')
+             ->dontSee('suspend-company-'.$company->id);
+    }
 
 }
