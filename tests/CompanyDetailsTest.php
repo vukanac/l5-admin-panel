@@ -49,4 +49,21 @@ class CompanyDetailsTest extends TestCase
              ->get('/company/'.$companyTwo->id)
              ->assertResponseStatus(200);
     }
+
+    public function test_return_to_list_from_details_with_back_button()
+    {
+        // Stop here and mark this test as incomplete.
+        $this->markTestIncomplete(
+            'This test has not been implemented yet.'
+        );
+
+        $user = factory(User::class, 'admin')->create();
+        $user->companies()->save($company = factory(Company::class)->create());
+
+        $this->actingAs($user)
+             ->visit('/company/'.$company->id)
+             ->see('Back')
+             ->click('Back')
+             ->seePageIs('/companies');
+    }
 }
