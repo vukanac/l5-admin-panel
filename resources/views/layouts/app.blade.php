@@ -55,7 +55,7 @@
                 <div id="navbar" class="navbar-collapse collapse">
                     <ul class="nav navbar-nav">
                         @if (Auth::guest())
-                            <li><a href="{{ url('/') }}">{{ trans('menu.home') }}</a></li>
+                            <li><a href="{{ url('/') }}" title="menu.home">{{ trans('menu.home') }}</a></li>
                         @else
                             <li><a href="{{ url('/users') }}" title="menu.users">{{ trans('menu.users') }}</a></li>
                             <li><a href="{{ url('/companies') }}" title="menu.companies">{{ trans('menu.companies') }}</a></li>
@@ -63,15 +63,16 @@
                     </ul>
                     <ul class="nav navbar-nav navbar-right">
                         @if (Auth::guest())
-                            <li><a href="{{ url('/auth/login') }}">{{ trans('menu.login') }}</a></li>
-                            <li><a href="{{ url('/auth/register') }}">{{ trans('menu.register') }}</a></li>
+                            <li><a href="{{ url('/auth/login') }}" title="menu.login">{{ trans('menu.login') }}</a></li>
+                            <li><a href="{{ url('/auth/register') }}" title="menu.register">{{ trans('menu.register') }}</a></li>
                         @else
                             <li class="dropdown">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown"
                                     role="button" aria-expanded="false"
                                 >{{ Auth::user()->name }} <span class="caret"></span></a>
                                 <ul class="dropdown-menu" role="menu">
-                                    <li><a href="{{ url('/auth/logout') }}">{{ trans('menu.logout') }}</a></li>
+                                    <li><a href="{{ url('/user/'.Auth::user()->id.'/edit') }}" title="menu.profile">{{ trans('menu.profile') }}</a></li>
+                                    <li><a href="{{ url('/auth/logout') }}" title="menu.logout">{{ trans('menu.logout') }}</a></li>
                                 </ul>
                             </li>
                         @endif

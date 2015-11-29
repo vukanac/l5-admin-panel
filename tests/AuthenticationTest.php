@@ -100,7 +100,6 @@ class AuthenticationTest extends TestCase
     {
         // accessible only for logged user
         $this->visit('/companies')
-             ->see('Login')
              ->seePageIs('auth/login');
     }
 
@@ -108,7 +107,6 @@ class AuthenticationTest extends TestCase
     {
         // accessible only for logged user
         $this->visit('/users')
-             ->see('Login')
              ->seePageIs('auth/login');
     }
 
