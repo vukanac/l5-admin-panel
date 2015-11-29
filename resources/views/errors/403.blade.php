@@ -41,7 +41,7 @@
     <body>
         <div class="container">
             <div class="content">
-                <div class="title">{{ trans('errors.unauthorised') }}</div>
+                <div class="title" title="errors.unauthorised">{{ trans('errors.unauthorised') }}</div>
             </div>
         </div>
     </body>
