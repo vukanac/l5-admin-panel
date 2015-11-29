@@ -46,6 +46,34 @@ class UserController extends Controller
 
 
     /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function store(Request $request)
+    {
+        $this->validate($request, [
+            'name' => 'required|max:255',
+            'email' => 'required|email|max:255|unique:users',
+            'password' => 'required|confirmed|min:6',
+            //'role' => 'not_in:owner',
+        ]);
+
+        // Create The User...
+        $user = User::create([
+            'name' => $request->input('name'),
+            'email' => $request->input('email'),
+            'password' => bcrypt($request->input('password')),
+        ]);
+
+        $user->save();
+
+        return redirect('/users');
+        
+    }
+
+    /**
      * Show the profile for the given user.
      *
      * @param  User  $user
