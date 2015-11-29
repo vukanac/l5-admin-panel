@@ -10,12 +10,12 @@ use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
-class CompanyFormTest extends TestCase
+class CompanyEditTest extends TestCase
 {
     use DatabaseTransactions;
     
 
-    public function test_returns_404_if_id_not_exist()
+    public function test_returns_404_if_id_does_not_exist()
     {
         $badId = '0';
         
@@ -35,7 +35,6 @@ class CompanyFormTest extends TestCase
 
         $this->actingAs($user)
              ->get('/company/'.$company->id.'/edit')
-             ->assertResponseStatus(200)
              ->see($company->id);
     }
 

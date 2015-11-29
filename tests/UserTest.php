@@ -24,7 +24,7 @@ class UserTest extends TestCase
     - VIEWER: can view. 
     */
 
-    public function test_respond_404_if_id_not_exist()
+    public function test_responds_404_if_id_does_not_exist()
     {
         $badId = '0';
         
