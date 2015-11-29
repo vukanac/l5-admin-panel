@@ -57,8 +57,6 @@ class UserRolesUserTest extends TestCase
             ->dontSee('value="owner"');
     }
 
-    }
-
     public function test_viewer_cannot_create_user()
     {
         $viewer = factory(User::class, 'viewer')->create();
