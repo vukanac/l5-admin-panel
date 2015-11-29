@@ -32,7 +32,7 @@ class UserRolesCompanyTest extends TestCase
         $owner = factory(User::class, 'owner')->create();
         $owner->companies()->save($company = factory(Company::class)->create());
 
-        $roles = Role::getAllRoles();
+        $roles = Role::getAllSystemRoles();
 
         foreach($roles as $role) {
             $user = factory(User::class, $role)->create();

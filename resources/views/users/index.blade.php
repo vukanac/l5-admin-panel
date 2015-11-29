@@ -54,6 +54,22 @@
                             </div>
                         </div>
 
+
+                        <!-- Role -->
+                        @can('change-user-role')
+                        <div class="form-group">
+                            <label for="task-role" class="col-sm-3 control-label">Role</label>
+
+                            <div class="col-sm-6">
+                                <select name="role" id="user-role" class="form-control">
+                                    @foreach ($roles as $role)
+                                        <option value="{{ $role }}">{{ $role }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+                        @endcan
+
                         <!-- Register Button -->
                         <div class="form-group">
                             <div class="col-sm-offset-3 col-sm-6">

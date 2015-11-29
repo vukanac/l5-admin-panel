@@ -39,7 +39,8 @@ class UserController extends Controller
         $users = User::orderBy('created_at', 'asc')->get();
 
         return view('users.index', [
-            'users' => $users
+            'users' => $users,
+            'roles' => \App\Role::getAllRoles(),
         ]);
     }
 
@@ -58,4 +59,5 @@ class UserController extends Controller
             'user' => $user
         ]);
     }
+
 }

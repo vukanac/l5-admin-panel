@@ -61,6 +61,10 @@ class AuthServiceProvider extends ServiceProvider
             return ($user->isOwner() || !$user->isViewer());
         });
 
+        $gate->define('change-user-role', function ($user) {
+            $can = $user->isOwner() || $user->isAdmin();
+            return $can;
+        });
         // end
     }
 }
