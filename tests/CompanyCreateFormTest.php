@@ -14,7 +14,7 @@ class CompanyCreateFormTest extends TestCase
 {
     use DatabaseTransactions;
 
-    public function test_companies_can_be_created_from_form()
+    public function test_company_can_be_created_from_form()
     {
         $user = factory(User::class, 'owner')->create();
         $this->actingAs($user);
@@ -33,7 +33,7 @@ class CompanyCreateFormTest extends TestCase
             ->seeInDatabase('companies', ['name' => $companyName]);
     }
 
-    public function test_long_companies_cant_be_created()
+    public function test_company_cannot_be_created_with_long_name()
     {
         $user = factory(User::class, 'owner')->create();
         $this->actingAs($user);

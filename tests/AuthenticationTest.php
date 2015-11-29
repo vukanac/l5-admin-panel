@@ -37,7 +37,7 @@ class AuthenticationTest extends TestCase
      *
      * @return void
      */
-    public function testLoginLogout()
+    public function test_i_can_login_and_logout()
     {
         $origPass = '321654';
         $user = factory(User::class, 'admin')->create([
@@ -66,7 +66,7 @@ class AuthenticationTest extends TestCase
      *
      * @return void
      */
-    public function testLoginFailed()
+    public function test_i_cannot_login_with_wrong_username_and_password_LoginFailed()
     {
         $this->visit('auth/login')
              ->type('UNKNOWN@doex.com', 'email')

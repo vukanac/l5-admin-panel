@@ -32,7 +32,7 @@ class CompaniesTest extends TestCase
              ->see('Company 3');
     }
 
-    public function test_users_can_view_companies_of_other_users()
+    public function test_users_see_companies_of_other_users()
     {
         $userOne = factory(User::class, 'admin')->create();
         $userTwo = factory(User::class, 'admin')->create();

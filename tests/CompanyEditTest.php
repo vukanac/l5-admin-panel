@@ -15,7 +15,7 @@ class CompanyFormTest extends TestCase
     use DatabaseTransactions;
     
 
-    public function test_return_404_if_id_not_exist()
+    public function test_returns_404_if_id_not_exist()
     {
         $badId = '0';
         
@@ -28,17 +28,18 @@ class CompanyFormTest extends TestCase
              ->assertResponseStatus(404);
     }
 
-    public function test_edit_one_company_details()
+    public function test_company_edit_page_is_accessible()
     {
         $user = factory(User::class, 'admin')->create();
         $user->companies()->save($company = factory(Company::class)->create());
 
         $this->actingAs($user)
              ->get('/company/'.$company->id.'/edit')
+             ->assertResponseStatus(200)
              ->see($company->id);
     }
 
-    public function test_user_see_edit_button()
+    public function test_see_edit_button_in_companies_list()
     {
         $user = factory(User::class, 'admin')->create();
         $company = factory(Company::class)->create();
@@ -54,7 +55,7 @@ class CompanyFormTest extends TestCase
              ->see('edit-company-'.$company->id);
     }
 
-    public function test_user_can_make_edit_to_own_company()
+    public function test_company_is_edited()
     {
         //$this->withoutMiddleware();
 

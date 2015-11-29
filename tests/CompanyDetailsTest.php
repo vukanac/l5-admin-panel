@@ -14,7 +14,7 @@ class CompanyDetailsTest extends TestCase
 {
     use DatabaseTransactions;
     
-    public function test_id_not_exist()
+    public function test_responds_404_if_id_not_exist()
     {
         $badId = '0';
         
@@ -27,22 +27,22 @@ class CompanyDetailsTest extends TestCase
              ->assertResponseStatus(404);
     }
 
-    public function test_show_one_company_details()
+    public function test_company_details_can_be_seen()
     {
         $user = factory(User::class, 'admin')->create();
         $user->companies()->save($company = factory(Company::class)->create());
 
         $this->actingAs($user)
              ->get('/company/'.$company->id)
+             ->assertResponseStatus(200)
              ->see($company->id);
     }
 
-    public function test_users_can_view_company_details_created_by_other_users()
+    public function test_company_details_of_other_user_can_be_seen()
     {
         $userOne = factory(User::class, 'admin')->create();
         $userTwo = factory(User::class, 'admin')->create();
 
-        $userOne->companies()->save($companyOne = factory(Company::class)->create());
         $userTwo->companies()->save($companyTwo = factory(Company::class)->create());
 
         $this->actingAs($userOne)

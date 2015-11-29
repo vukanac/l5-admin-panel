@@ -15,7 +15,7 @@ class CompanyDeleteTest extends TestCase
 	use DatabaseTransactions;
 	
     
-    public function test_users_can_delete_a_company()
+    public function test_company_can_be_deleted()
     {
         $user = factory(User::class, 'owner')->create();
 
@@ -32,7 +32,7 @@ class CompanyDeleteTest extends TestCase
              ->see($companyTwo->name);
     }
     
-    public function test_users_can_delete_companies_of_other_users()
+    public function test_company_of_other_user_can_be_deleted()
     {
         // $this->withoutMiddleware();
 
