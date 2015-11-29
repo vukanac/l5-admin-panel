@@ -154,6 +154,9 @@ Other solution is to wrap visit in `try` and assert match exception status code 
         \PHPUnit_Framework_Assert::assertEquals($expectedResponseStatus, $e->getStatusCode());
     }
 
+Note:
+
+* `assertResponseStatus()` should be called after `see()` - it does not return fluent object. [Laravel issue#11106](https://github.com/laravel/framework/issues/11106)
 
 ### Jenkins
 
