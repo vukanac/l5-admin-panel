@@ -102,6 +102,7 @@ By default it will return JSON response.
 
 ### While in Dev
 
+
 #### Install
 
 
@@ -122,6 +123,36 @@ Add to gulpfile.js inside :
 Just from terminal run:
 
     $ gulp tdd
+
+
+
+#### Testing
+
+Check this page when you could not find what you are looking for in Laravel Test
+[Laracast/Integrated](https://github.com/laracasts/Integrated/wiki/Learn-the-API).
+
+On how to use `config`, `pagination` and `Back Button` read [L5 Beauty - 10 min blog](http://laravelcoding.com/blog/laravel-5-beauty-the-10-minute-blog).
+
+And watch [Laracast What's new in L5.1](https://laracasts.com/series/whats-new-in-laravel-5-1/episodes/5).
+
+To test `403 - Unauthorised` you have to use `get` with `assertResponseStatus(403)` instead of `visit`
+because `visit`-ing unauthorised page will throw exception!
+
+Example: As viewer visit company edit page `/company/123/edit`
+
+    $this->actingAs($unautorisedUser)
+         ->get('/forbiddenPage')
+         ->assertResponseStatus(403);
+
+Other solution is to wrap visit in `try` and assert match exception status code in `catch` with PHPUnit.
+
+    try {
+        $this->actingAs($unautorisedUser)
+             ->get('/forbiddenPage');
+    } catch (\Exception $e) {
+        $expectedResponseStatus = 403;
+        \PHPUnit_Framework_Assert::assertEquals($expectedResponseStatus, $e->getStatusCode());
+    }
 
 
 ### Jenkins
