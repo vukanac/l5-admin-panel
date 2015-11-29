@@ -34,8 +34,8 @@ class CompanyDetailsTest extends TestCase
 
         $this->actingAs($user)
              ->get('/company/'.$company->id)
-             ->assertResponseStatus(200)
-             ->see($company->id);
+             ->see($company->id)
+             ->assertResponseStatus(200);
     }
 
     public function test_company_details_of_other_user_can_be_seen()
