@@ -42,6 +42,23 @@ class UserRolesCompanyTest extends TestCase
         }
     }
 
+    public function test_owner_can_create_edit_and_delete_company()
+    {
+        $owner = factory(User::class, 'owner')->create();
+
+        $user = factory(User::class, 'admin')->create();
+        $user->companies()->save($company = factory(Company::class)->create());
+
+        $this->actingAs($owner)
+             ->visit('/companies')
+             ->dontSee('User is not authorised to Create Company.')
+             ->see('Add Company')
+             ->see($company->name)
+             ->see('edit-company-'.$company->id)
+             ->see('delete-company-'.$company->id);
+    }
+
+
     public function test_admin_can_create_company()
     {
         $user = factory(User::class, 'admin')->create();
@@ -151,24 +168,6 @@ class UserRolesCompanyTest extends TestCase
         $this->actingAs($user)
              ->visit('/companies')
              ->dontSee('delete-company-'.$company->id);
-    }
-
-    public function test_author_cannot_access_edit_company_page()
-    {
-        // Stop here and mark this test as incomplete.
-        $this->markTestIncomplete(
-            'This test has not been implemented yet.'
-        );
-
-        $owner = factory(User::class, 'owner')->create();
-        $owner->companies()->save($company = factory(Company::class)->create());
-
-        $user = factory(User::class, 'author')->create();
-        $this->actingAs($user)
-             ->visit('/company/'.$company->id.'/edit')
-             ->assertResponseStatus(403)
-             ->dontSee('Suspend Company')
-             ->dontSee('suspend-company-'.$company->id);
     }
 
 }
