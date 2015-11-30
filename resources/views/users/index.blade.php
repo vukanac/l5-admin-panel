@@ -129,8 +129,19 @@
                                         &nbsp;
                                         @endcan
 
+                                        @can('destroy-user', $user)
+                                        <!-- Delete Button -->
+                                        <div style="float: left;">
+                                        <form action="{{ url('user/'.$user->id) }}" method="POST">
+                                            {{ csrf_field() }}
+                                            {{ method_field('DELETE') }}
+
+                                            <button id="delete-user-{{ $user->id }}">Delete</button>
+                                        </form>
+                                        </div>
+                                        @else
                                         &nbsp;
-                                        
+                                        @endcan
                                     </td>
                                 </tr>
                             @endforeach

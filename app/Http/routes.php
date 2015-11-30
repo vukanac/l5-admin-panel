@@ -60,3 +60,4 @@ Route::put('/company/{company}', 'CompanyController@update');
 Route::get('/users', 'UserController@index');
 Route::get('/user/{user}', 'UserController@show');
 Route::post('/user', 'UserController@store');
+Route::delete('/user/{user}', 'UserController@destroy');

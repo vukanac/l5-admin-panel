@@ -65,6 +65,26 @@ class AuthServiceProvider extends ServiceProvider
             $can = $user->isOwner() || $user->isAdmin();
             return $can;
         });
+        $gate->define('destroy-user', function ($user, \App\User $watchingUser) {
+            // $can = $user->isOwner() || $user->isAdmin() || $user->isManager() || $user->isAuthor() || $this->isViewer();
+            // $cannot = false;
+            
+            // user cannot:
+            // - destroy self
+            // - destroy owner
+
+            if($user->isOwner()) {
+                return true;
+            }
+            // if($user->id === $watchingUser->id) {
+            //     return false;
+            // }
+            // if($watchingUser->isOwner()) {
+            //     return false;
+            // }
+
+            return false;
+        });
         // end
     }
 }
