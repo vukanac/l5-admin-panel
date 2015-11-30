@@ -14,7 +14,7 @@ class UsersTableSeeder extends Seeder
      */
     public function run()
     {
-        $roles = \App\Role::getAllRoles();
+        $roles = \App\Role::getAllSystemRoles();
 
         //$this->seedOnlyOwner();
 
