@@ -11,6 +11,7 @@
 				<div class="panel-body">
 					<strong>Name</strong> : {{ $user->name }}<br>
 					<strong>Email</strong> : {{ $user->email }}<br>
+					<strong>Role</strong> : {{ $user->role }}<br>
 				</div>
 			</div>
 		</div>

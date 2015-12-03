@@ -55,6 +55,7 @@ class UserTest extends TestCase
         $this->actingAs($userTwo)
              ->get('/user/'.$userOne->id)
              ->see($userOne->name)
+             ->see($userOne->role)
              ->assertResponseStatus(200);
     }
 
