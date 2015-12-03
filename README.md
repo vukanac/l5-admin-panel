@@ -110,6 +110,7 @@ Install tools:
 
 1. npm install
 
+[Troubleshoot Elixir](#troubleshoot-elixir)
 
 Awesome feature is to use Elixir to run PhpUnit on every file save!
 
@@ -205,3 +206,15 @@ On build server login with jenkins user, and login to mysql, and create new user
 This `homestead` user and database schema will be used for testing and build on Jenkins CI.
 
 Other solution, may be better and faster, for this problem is to instead of mysql use **in memmory SqLite**.
+
+
+#### Troubleshoot Elixir
+
+If some errors show up try with different version of elixir
+(eg. from ^4.0.0 change to ^3.0.0).
+And read messages carefully!
+Elixir requires:
+- node
+- python27 with Environment variable set on windows
+- MSWindows SDK and some lib from it in PATH
+
