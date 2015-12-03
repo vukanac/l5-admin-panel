@@ -98,35 +98,35 @@ class UserTest extends TestCase
              ->see($userThree->name);
     }
 
-    public function test_return_to_list_from_details_with_back_button()
-    {
-        // Stop here and mark this test as incomplete.
-        $this->markTestIncomplete(
-            'This test has not been implemented yet.'
-        );
+    // public function test_return_to_list_from_details_with_back_button()
+    // {
+    //     // Stop here and mark this test as incomplete.
+    //     $this->markTestIncomplete(
+    //         'This test has not been implemented yet.'
+    //     );
 
-        $user = factory(User::class, 'admin')->create();
+    //     $user = factory(User::class, 'admin')->create();
 
-        $this->actingAs($user)
-             ->visit('/user/'.$user->id)
-             ->see('Back')
-             ->click('Back')
-             ->seePageIs('/users');
-    }
+    //     $this->actingAs($user)
+    //          ->visit('/user/'.$user->id)
+    //          ->see('Back')
+    //          ->click('Back')
+    //          ->seePageIs('/users');
+    // }
 
-    public function test_return_to_list_from_edit_with_back_button()
-    {
-        // Stop here and mark this test as incomplete.
-        $this->markTestIncomplete(
-            'This test has not been implemented yet.'
-        );
+    // public function test_return_to_list_from_edit_with_back_button()
+    // {
+    //     // Stop here and mark this test as incomplete.
+    //     $this->markTestIncomplete(
+    //         'This test has not been implemented yet.'
+    //     );
 
-        $user = factory(User::class, 'admin')->create();
+    //     $user = factory(User::class, 'admin')->create();
 
-        $this->actingAs($user)
-             ->visit('/user/'.$user->id)
-             ->see('Back')
-             ->click('Back')
-             ->seePageIs('/users');
-    }
+    //     $this->actingAs($user)
+    //          ->visit('/user/'.$user->id)
+    //          ->see('Back')
+    //          ->click('Back')
+    //          ->seePageIs('/users');
+    // }
 }

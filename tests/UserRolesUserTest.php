@@ -159,26 +159,23 @@ class UserRolesUserTest extends TestCase
     //     // );
     // }
 
-    // public function test_admin_can_create_user_with_role_except_owner()
-    // {
-    //     // Stop here and mark this test as incomplete.
-    //     $this->markTestIncomplete(
-    //         'This test has not been implemented yet.'
-    //     );
-    //     $admin = factory(User::class, 'admin')->create();
-    //     $user = factory(User::class, 'admin')->make();
+    public function test_admin_can_create_user_with_role_except_owner()
+    {
+        $admin = factory(User::class, 'admin')->create();
+        $user = factory(User::class, 'admin')->make();
 
-    //     $this->actingAs($admin)
-    //         ->visit('/users')
-    //         ->dontSee('User is not authorised to Create User.')
-    //         ->see('Add User')
-    //         ->see('name="role"')
-    //         ->see('value="admin"')
-    //         ->dontSee('value="owner"');
+        $this->actingAs($admin)
+            ->visit('/users')
+            ->dontSee('User is not authorised to Create User.')
+            ->see('Add User')
+            ->see('name="role"')
+            ->see('value="admin"')
+            ->dontSee('value="owner"');
 
-    //     $this->post('/user', $user->toArray())
-    //          ->assertResponseStatus(200);
-    // }
+        $this->post('/user', $user->toArray())
+             ->assertResponseStatus(200);
+        $this->seeInDatabase('users', ['email' => $user->email]);
+    }
 
     // public function test_admin_can_edit_user_and_change_user_role()
     // {
