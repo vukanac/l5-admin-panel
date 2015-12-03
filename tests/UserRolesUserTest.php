@@ -246,45 +246,60 @@ class UserRolesUserTest extends TestCase
              ->dontSee('delete-user-'.$user->id);
     }
 
-    // public function test_manager_cannot_create_user()
-    // {
-    //     // Stop here and mark this test as incomplete.
-    //     $this->markTestIncomplete(
-    //         'This test has not been implemented yet.'
-    //     );
-    //     $user = factory(User::class, 'manager')->create();
-    //     $this->actingAs($user)
-    //         ->visit('/users')
-    //         ->see('User is not authorised to Create User.')
-    //         ->dontSee('Add User');
-    // }
+    public function test_manager_cannot_create_user()
+    {
+        $user = factory(User::class, 'manager')->create();
+        $this->actingAs($user)
+            ->visit('/users')
+            ->see('You are not authorised to Create User.')
+            ->dontSee('Add User');
+    }
 
-    // public function test_manager_can_edit_user()
-    // {
-    //     // Stop here and mark this test as incomplete.
-    //     $this->markTestIncomplete(
-    //         'This test has not been implemented yet.'
-    //     );
-    //     $user = factory(User::class, 'admin')->create();
-    //     $userTwo = factory(User::class, 'admin')->create();
-    //     $this->actingAs($user)
-    //          ->visit('/user/'.$userTwo->id.'/edit')
-    //          ->assertResponseStatus(403);
-    // }
+    public function test_manager_can_edit_user()
+    {
+        $user = factory(User::class, 'manager')->create();
+        $userTwo = factory(User::class, 'admin')->create();
+        $this->actingAs($user)
+             ->visit('/user/'.$userTwo->id.'/edit')
+             ->assertResponseStatus(200);
 
-    // public function test_manager_cannot_change_user_role()
-    // {
-    //     // Stop here and mark this test as incomplete.
-    //     $this->markTestIncomplete(
-    //         'This test has not been implemented yet.'
-    //     );
-    //     $user = factory(User::class, 'admin')->create();
-    //     $userTwo = factory(User::class, 'admin')->create();
-    //     $this->actingAs($user)
-    //          ->visit('/user/'.$userTwo->id.'/edit')
-    //          ->see('Add User')
-    //          ->dontSee('Role');
-    // }
+        $this->actingAs($user)
+             ->visit('/users')
+             ->see('edit-user-'.$userTwo->id)
+             ->click('edit-user-'.$userTwo->id)
+             ->seePageIs('/user/'.$userTwo->id.'/edit');
+    }
+
+    public function test_manager_cannot_change_user_role()
+    {
+        $user = factory(User::class, 'manager')->create();
+        $userTwo = factory(User::class, 'admin')->create();
+        $this->actingAs($user)
+             ->visit('/user/'.$userTwo->id.'/edit')
+             ->see('Add User')
+             ->dontSee('name="role"');
+    }
+
+    public function test_manager_cannot_edit_owner()
+    {
+        $user = factory(User::class, 'manager')->create();
+        $userTwo = factory(User::class, 'owner')->create();
+        $this->actingAs($user)
+             ->get('/user/'.$userTwo->id.'/edit')
+             ->assertResponseStatus(403);
+    }
+
+    public function test_manager_cannot_delete_user()
+    {
+        $manager = factory(User::class, 'manager')->create();
+        $user = factory(User::class, 'admin')->create();
+
+        $this->actingAs($manager)
+             ->visit('/users')
+             ->seeInDatabase('users', ['email' => $user->email])
+             ->dontSee('delete-user-'.$user->id);
+    }
+
     // public function test_author_cannot_create_user()
     // {
     //     // Stop here and mark this test as incomplete.
