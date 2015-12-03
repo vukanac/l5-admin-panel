@@ -73,23 +73,16 @@ class UserRolesUserTest extends TestCase
         // );
     }
 
-    // public function test_owner_cannot_delete_owner()
-    // {
-    //     // Stop here and mark this test as incomplete.
-    //     $this->markTestIncomplete(
-    //         'This test has not been implemented yet.'
-    //     );
-    //     $owner = factory(User::class, 'owner')->create();
-    //     $user = factory(User::class, 'owner')->create();
+    public function test_owner_cannot_delete_owner()
+    {
+        $owner = factory(User::class, 'owner')->create();
+        $user = factory(User::class, 'owner')->create();
 
-    //     $this->actingAs($owner)
-    //          ->visit('/users')
-    //          ->seeInDatabase('users', ['email' => $user->email])
-    //          ->dontSee('delete-user-'.$user->id);
-    //     $this->delete('user/'.$user->id)
-    //          ->seeInDatabase('users', ['email' => $user->email])
-    //          ->assertResponseStatus(403);
-    // }
+        $this->actingAs($owner)
+             ->visit('/users')
+             ->seeInDatabase('users', ['email' => $user->email])
+             ->dontSee('delete-user-'.$user->id);
+    }
 
     // public function test_owner_cannot_delete_self()
     // {
@@ -174,32 +167,9 @@ class UserRolesUserTest extends TestCase
     //         ->dontSee('name="role"');
     // }
 
-    // public function test_admin_cannot_delete_owner()
-    // {
-    //     // Stop here and mark this test as incomplete.
-    //     $this->markTestIncomplete(
-    //         'This test has not been implemented yet.'
-    //     );
-    //     $admin = factory(User::class, 'admin')->create();
-    //     $user = factory(User::class, 'owner')->create();
-
-    //     $this->actingAs($admin)
-    //          ->visit('/users')
-    //          ->seeInDatabase('users', ['email' => $user->email])
-    //          ->dontSee('delete-user-'.$user->id);
-    //     $this->delete('user/'.$user->id)
-    //          ->seeInDatabase('users', ['email' => $user->email])
-    //          ->assertResponseStatus(403);
-    //     // // Stop here and mark this test as incomplete.
-    //     // $this->markTestIncomplete(
-    //     //     'This test has not been implemented yet.'
-    //     // );
-    // }
-
     public function test_admin_can_create_user_with_role_except_owner()
     {
         $admin = factory(User::class, 'admin')->create();
-        $user = factory(User::class, 'admin')->make();
 
         $this->actingAs($admin)
             ->visit('/users')
@@ -208,32 +178,65 @@ class UserRolesUserTest extends TestCase
             ->see('name="role"')
             ->see('value="admin"')
             ->dontSee('value="owner"');
-
-        $this->post('/user', $user->toArray())
-             ->assertResponseStatus(200);
-        $this->seeInDatabase('users', ['email' => $user->email]);
     }
 
-    // public function test_admin_can_edit_user_and_change_user_role()
-    // {
-    //     // Stop here and mark this test as incomplete.
-    //     $this->markTestIncomplete(
-    //         'This test has not been implemented yet.'
-    //     );
+    public function test_admin_can_edit_user_and_change_user_role()
+    {
+        $admin = factory(User::class, 'admin')->create();
+        $userOld = factory(User::class, 'admin')->create();
+        $userNew = factory(User::class, 'author')->make();
 
-    //     $user = factory(User::class, 'admin')->create();
-    //     $userTwo = factory(User::class, 'admin')->create();
+        $this->actingAs($admin)
+            ->seeInDatabase('users', ['id' => $userOld->id, 'name' => $userOld->name, 'role' => $userOld->role])
+            ->visit('/users')
+            ->see('edit-user-'.$userOld->id)
+            ->click('edit-user-'.$userOld->id)
+            ->seePageIs('/user/'.$userOld->id.'/edit')
+            ->see($userOld->name)
+            ->see('name="role"')
+            ->see('Save User Changes')
+            ->type($userNew->name, 'name')
+            ->select($userNew->role, 'role')
+            ->press('Save User Changes')
+            ->seeInDatabase('users', ['id' => $userOld->id, 'name' => $userNew->name, 'role' => $userNew->role])
+            ->seePageIs('/users')
+            ->see($userNew->name);
+    }
 
-    //     $oldName = $userTwo->name;
-    //     $newName = 'Test name '.time();
+    public function test_admin_cannot_edit_owner()
+    {
+        $admin = factory(User::class, 'admin')->create();
+        $user = factory(User::class, 'owner')->create();
 
-    //     $this->actingAs($user)
-    //         ->visit('/users')
-    //         ->see('edit-user-'.$userTwo->id)
-    //         ->visit('/user/'.$userTwo->id.'/edit')
-    //         ->see('Add User')
-    //         ->see('name="role"');
-    // }
+        $this->actingAs($admin)
+             ->visit('/users')
+             ->seeInDatabase('users', ['email' => $user->email])
+             ->dontSee('edit-user-'.$user->id);
+    }
+
+    public function test_admin_can_delete_user()
+    {
+        $admin = factory(User::class, 'admin')->create();
+        $user = factory(User::class, 'admin')->create();
+
+        $this->actingAs($admin)
+             ->visit('/users')
+             ->seeInDatabase('users', ['email' => $user->email])
+             ->see('delete-user-'.$user->id)
+             ->press('delete-user-'.$user->id)
+             ->dontSeeInDatabase('users', ['email' => $user->email]);
+    }
+
+    public function test_admin_cannot_delete_owner()
+    {
+        $admin = factory(User::class, 'admin')->create();
+        $user = factory(User::class, 'owner')->create();
+
+        $this->actingAs($admin)
+             ->visit('/users')
+             ->seeInDatabase('users', ['email' => $user->email])
+             ->dontSee('delete-user-'.$user->id);
+    }
 
     // public function test_manager_cannot_create_user()
     // {

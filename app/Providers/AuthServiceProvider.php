@@ -71,21 +71,34 @@ class AuthServiceProvider extends ServiceProvider
             
             // user cannot:
             // - destroy self
-            // - destroy owner
+            // - destroy owner - nobody can destroy owner!!!
 
+            if($user->isAdmin()) {
+                if($watchingUser->isOwner()) {
+                    return false;
+                }
+                return true;
+            }
             if($user->isOwner()) {
+                if($watchingUser->isOwner()) {
+                    return false;
+                }
                 return true;
             }
             // if($user->id === $watchingUser->id) {
             //     return false;
             // }
-            // if($watchingUser->isOwner()) {
-            //     return false;
-            // }
+            
 
             return false;
         });
         $gate->define('update-user', function ($user, \App\User $watchingUser) {
+            if($user->isAdmin()) {
+                if($watchingUser->isOwner()) {
+                    return false;
+                }
+                return true;
+            }
             if($user->isOwner()) {
                 return true;
             }
