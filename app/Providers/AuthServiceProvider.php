@@ -85,6 +85,13 @@ class AuthServiceProvider extends ServiceProvider
 
             return false;
         });
+        $gate->define('update-user', function ($user, \App\User $watchingUser) {
+            if($user->isOwner()) {
+                return true;
+            }
+            return false;
+        });
+        
         // end
     }
 }

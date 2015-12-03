@@ -120,10 +120,12 @@
                                         @can('update-user', $user)
 
                                         <div style="float: left;">
-                                        <!-- Edit Button -->
-                                        <form action="{{ url('user/'.$user->id.'/edit') }}" method="GET">
-                                            <button id="edit-user-{{ $user->id }}">Edit</button>
-                                        </form>
+                                            <!-- Edit Button -->
+                                            <a href="{{ url('user/'.$user->id.'/edit') }}"
+                                                id="edit-user-{{ $user->id }}"
+                                                class="btn btn-default"
+                                                role="button"
+                                                >Edit</a>
                                         </div>
                                         @else
                                         &nbsp;
@@ -132,12 +134,15 @@
                                         @can('destroy-user', $user)
                                         <!-- Delete Button -->
                                         <div style="float: left;">
-                                        <form action="{{ url('user/'.$user->id) }}" method="POST">
-                                            {{ csrf_field() }}
-                                            {{ method_field('DELETE') }}
+                                            <form action="{{ url('user/'.$user->id) }}" method="POST">
+                                                {{ csrf_field() }}
+                                                {{ method_field('DELETE') }}
 
-                                            <button id="delete-user-{{ $user->id }}">Delete</button>
-                                        </form>
+                                                <button id="delete-user-{{ $user->id }}"
+                                                    class="btn btn-default"
+                                                    role="button"
+                                                    >Delete</button>
+                                            </form>
                                         </div>
                                         @else
                                         &nbsp;

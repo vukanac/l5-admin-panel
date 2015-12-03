@@ -88,6 +88,65 @@ class UserController extends Controller
         ]);
     }
 
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  User  $user
+     * @return \Illuminate\Http\Response
+     */
+    public function edit(Request $request, User $user)
+    {
+        $userLogged = $request->user();
+
+        $this->authorize('update-user', $user);
+        
+        return view('users.edit', [
+            'user' => $user,
+            'roles' => \App\Role::getAllRoles(),
+        ]);
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  User  $user1
+     * @return \Illuminate\Http\Response
+     */
+    public function update(Request $request, User $user1)
+    {
+        $this->authorize('update-user', $user1);
+
+        $conditionsArr = [
+            'name' => 'required|max:255',
+        ];
+
+        if ($user1->email !== $request->input('email')) {
+            $conditionsArr['email'] = 'required|email|max:255|unique:users';
+        }
+
+        // check do we change password
+        $passwordPost = $request->input('password');
+        $changePass = !empty($passwordPost);
+        if ($changePass) {
+            $conditionsArr['password'] = 'required|confirmed|min:6';
+        }
+
+        $this->validate($request, $conditionsArr);
+
+        $user1->name = $request->input('name');
+        $user1->email = $request->input('email');
+        $user1->role = $request->input('role');
+
+        // change password
+        if ($changePass) {
+            $user1->password = bcrypt($request->input('password'));
+        }
+
+        $user1->save();
+
+        return redirect('/users');
+    }
 
     /**
      * Remove the specified resource from storage.

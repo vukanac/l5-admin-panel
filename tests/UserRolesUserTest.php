@@ -137,6 +137,43 @@ class UserRolesUserTest extends TestCase
     //          ->assertResponseStatus(403);
     // }
 
+    public function test_owner_can_edit_user_and_change_user_role()
+    {
+        
+        $owner = factory(User::class, 'owner')->create();
+        $userOld = factory(User::class, 'admin')->create();
+        $userNew = factory(User::class, 'author')->make();
+
+        $this->actingAs($owner)
+            ->seeInDatabase('users', ['id' => $userOld->id, 'name' => $userOld->name, 'role' => $userOld->role])
+            ->visit('/users')
+            ->see('edit-user-'.$userOld->id)
+            ->click('edit-user-'.$userOld->id)
+            ->seePageIs('/user/'.$userOld->id.'/edit')
+            ->see($userOld->name)
+            ->see('name="role"')
+            ->see('Save User Changes')
+            ->type($userNew->name, 'name')
+            ->select($userNew->role, 'role')
+            ->press('Save User Changes')
+            ->seeInDatabase('users', ['id' => $userOld->id, 'name' => $userNew->name, 'role' => $userNew->role])
+            ->seePageIs('/users')
+            ->see($userNew->name);
+    }
+
+    // public function test_owner_cannot_change_owners_role()
+    // {
+    //     $owner = factory(User::class, 'owner')->create();
+        
+    //     $this->actingAs($owner)
+    //         ->visit('/user/'.$owner->id.'/edit')
+    //         ->see($owner->name)
+    //         ->see($owner->id)
+    //         ->see($owner->email)
+    //         ->see('Edit User')
+    //         ->dontSee('name="role"');
+    // }
+
     // public function test_admin_cannot_delete_owner()
     // {
     //     // Stop here and mark this test as incomplete.
