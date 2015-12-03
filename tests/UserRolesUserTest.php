@@ -19,16 +19,19 @@ class UserRolesUserTest extends TestCase
     /**
      * Owner to create new users 
      */
-    public function test_owner_can_create_admin_but_not_owner()
+    public function test_owner_can_create_user_but_not_owner()
     {
         $owner = factory(User::class, 'owner')->create();
-        $admin = factory(User::class, 'admin')->make();
+        $user = factory(User::class, 'owner')->make();
         $this->actingAs($owner)
             ->visit('/users')
             ->dontSee('User is not authorised to Create User.')
             ->see('Add User')
             ->see('name="role"')
             ->see('value="admin"')
+            ->see('value="manager"')
+            ->see('value="author"')
+            ->see('value="viewer"')
             ->dontSee('value="owner"');
     }
 
@@ -130,7 +133,7 @@ class UserRolesUserTest extends TestCase
     //          ->assertResponseStatus(403);
     // }
 
-    public function test_owner_can_edit_user_and_change_user_role()
+    public function test_owner_can_edit_user_and_change_user_role_except_owner()
     {
         
         $owner = factory(User::class, 'owner')->create();
@@ -145,6 +148,11 @@ class UserRolesUserTest extends TestCase
             ->seePageIs('/user/'.$userOld->id.'/edit')
             ->see($userOld->name)
             ->see('name="role"')
+            ->see('value="admin"')
+            ->see('value="manager"')
+            ->see('value="author"')
+            ->see('value="viewer"')
+            ->dontSee('value="owner"')
             ->see('Save User Changes')
             ->type($userNew->name, 'name')
             ->select($userNew->role, 'role')

@@ -57,7 +57,7 @@ class UserController extends Controller
             'name' => 'required|max:255',
             'email' => 'required|email|max:255|unique:users',
             'password' => 'required|confirmed|min:6',
-            //'role' => 'not_in:owner',
+            'role' => 'not_in:owner',
         ]);
 
         // Create The User...
