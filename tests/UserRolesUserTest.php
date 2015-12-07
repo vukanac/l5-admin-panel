@@ -329,40 +329,34 @@ class UserRolesUserTest extends TestCase
              ->dontSee('delete-user-'.$user->id);
     }
 
-    // public function test_viewer_cannot_create_user()
-    // {
-    //     $viewer = factory(User::class, 'viewer')->create();
+    public function test_viewer_cannot_create_user()
+    {
+        $viewer = factory(User::class, 'viewer')->create();
             
-    //     $this->actingAs($viewer)
-    //          ->visit('/users')
-    //          ->see('You are not authorised to Create User.')
-    //          ->dontSee('Add User');
-    // }
+        $this->actingAs($viewer)
+             ->visit('/users')
+             ->see('You are not authorised to Create User.')
+             ->dontSee('Add User');
+    }
 
-    // public function test_viewer_cannot_edit_user()
-    // {
-    //     // Stop here and mark this test as incomplete.
-    //     $this->markTestIncomplete(
-    //         'This test has not been implemented yet.'
-    //     );
-    //     $user = factory(User::class, 'viewer')->create();
-    //     $userTwo = factory(User::class, 'admin')->create();
-    //     $this->actingAs($user)
-    //          ->visit('/user/'.$userTwo->id.'/edit')
-    //          ->assertResponseStatus(403);
-    // }
+    public function test_viewer_cannot_edit_user()
+    {
+        $user = factory(User::class, 'viewer')->create();
+        $userTwo = factory(User::class, 'admin')->create();
+        $this->actingAs($user)
+             ->get('/user/'.$userTwo->id.'/edit')
+             ->assertResponseStatus(403);
+    }
 
-    // public function test_viewer_cannot_change_user_role()
-    // {
-    //     // Stop here and mark this test as incomplete.
-    //     $this->markTestIncomplete(
-    //         'This test has not been implemented yet.'
-    //     );
-    //     $user = factory(User::class, 'viewer')->create();
-    //     $userTwo = factory(User::class, 'admin')->create();
-    //     $this->actingAs($user)
-    //          ->visit('/user/'.$userTwo->id.'/edit')
-    //          ->see('Add User')
-    //          ->dontSee('Role');
-    // }
+    public function test_viewer_cannot_delete_user()
+    {
+        $author = factory(User::class, 'viewer')->create();
+        $user = factory(User::class, 'admin')->create();
+
+        $this->actingAs($author)
+             ->visit('/users')
+             ->seeInDatabase('users', ['email' => $user->email])
+             ->dontSee('delete-user-'.$user->id);
+    }
+
 }

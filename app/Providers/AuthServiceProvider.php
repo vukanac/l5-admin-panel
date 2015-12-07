@@ -85,6 +85,9 @@ class AuthServiceProvider extends ServiceProvider
             // - destroy self
             // - destroy owner - nobody can destroy owner!!!
 
+            if($user->isViewer()) {
+                return false;
+            }
             if($user->isAuthor()) {
                 return false;
             }
@@ -111,6 +114,9 @@ class AuthServiceProvider extends ServiceProvider
             return false;
         });
         $gate->define('update-user', function ($user, \App\User $watchingUser) {
+            if($user->isViewer()) {
+                return false;
+            }
             if($user->isAuthor()) {
                 return false;
             }
