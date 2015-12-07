@@ -58,10 +58,19 @@ class AuthServiceProvider extends ServiceProvider
             return true;
         });
         $gate->define('create-user', function ($user) {
+            if($user->isViewer()) {
+                return false;
+            }
+            if($user->isAuthor()) {
+                return false;
+            }
             if($user->isManager()) {
                 return false;
             }
-            return ($user->isOwner() || !$user->isViewer());
+            if($user->isAdmin()) {
+                return true;
+            }
+            return $user->isOwner();
         });
 
         $gate->define('change-user-role', function ($user) {
@@ -76,6 +85,9 @@ class AuthServiceProvider extends ServiceProvider
             // - destroy self
             // - destroy owner - nobody can destroy owner!!!
 
+            if($user->isAuthor()) {
+                return false;
+            }
             if($user->isManager()) {
                 return false;
             }
@@ -99,6 +111,9 @@ class AuthServiceProvider extends ServiceProvider
             return false;
         });
         $gate->define('update-user', function ($user, \App\User $watchingUser) {
+            if($user->isAuthor()) {
+                return false;
+            }
             if($user->isManager()) {
                 if($watchingUser->isOwner()) {
                     return false;
