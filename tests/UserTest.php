@@ -47,6 +47,23 @@ class UserTest extends TestCase
         
     }
 
+    public function test_user_can_edit_profile()
+    {
+        $user = factory(User::class, 'admin')->create();
+        $userNew = factory(User::class, 'admin')->make();
+        
+        $this->actingAs($user)
+             ->visit('/')
+             ->see('menu.profile')
+             ->click('menu.profile')
+             ->see($user->name)
+             ->see($user->email)
+             ->see('Save User Changes')
+             ->type($userNew->name, 'name')
+             ->press('Save User Changes')
+             ->seeInDatabase('users', ['id' => $user->id, 'name' => $userNew->name]);
+    }
+
     public function test_show_one_user_details()
     {
         $userOne = factory(User::class, 'admin')->create();
@@ -84,7 +101,6 @@ class UserTest extends TestCase
         }
         
     }
-
 
     public function test_user_can_see_list_of_users()
     {
