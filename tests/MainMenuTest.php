@@ -63,7 +63,7 @@ class MainMenuTest extends TestCase
         $this->actingAs($user)
              ->visit('/')
              ->see('menu.profile')
-             ->see('Profile');
+             ->see('My Profile');
     }
 
 }

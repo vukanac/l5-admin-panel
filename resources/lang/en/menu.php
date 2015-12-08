@@ -5,6 +5,7 @@ return [
     'logout' => 'Logout',
     'register' => 'Register',
     'home' => 'Home',
+    'profile' => 'My Profile',
     'dashboard' => 'Dashboard',
     'users' => 'Users',
     'companies' => 'Companies',
