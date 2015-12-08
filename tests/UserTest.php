@@ -55,7 +55,7 @@ class UserTest extends TestCase
         $this->actingAs($user)
              ->visit('/')
              ->see('menu.profile')
-             ->click('menu.profile')
+             ->click('My Profile')
              ->see($user->name)
              ->see($user->email)
              ->see('Save User Changes')
