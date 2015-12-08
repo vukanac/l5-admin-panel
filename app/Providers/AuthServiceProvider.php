@@ -118,22 +118,10 @@ class AuthServiceProvider extends ServiceProvider
         });
         $gate->define('update-user', function ($user, \App\User $watchingUser) {
             if($user->id == $watchingUser->id) {
-                if($user->isViewer()) {
-                    return true;
-                }
-                if($user->isAuthor()) {
-                    return true;
-                }
-                if($user->isManager()) {
-                    return true;
-                }
-                if($user->isAdmin()) {
-                    return true;
-                }
-                if($user->isOwner()) {
-                    return true;
-                }
-                return false;
+                // every user role can edit personal profile
+                // can: [owner, admin, manager, author, viewer]
+                // cannot: []
+                return true;
             }
             
             if($user->isViewer()) {
