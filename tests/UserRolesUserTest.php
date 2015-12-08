@@ -348,6 +348,14 @@ class UserRolesUserTest extends TestCase
              ->assertResponseStatus(403);
     }
 
+    public function test_viewer_can_edit_self()
+    {
+        $user = factory(User::class, 'viewer')->create();
+        $this->actingAs($user)
+             ->visit('/users')
+             ->see('edit-user-'.$user->id);
+    }
+
     public function test_viewer_cannot_delete_user()
     {
         $author = factory(User::class, 'viewer')->create();

@@ -118,6 +118,9 @@ class AuthServiceProvider extends ServiceProvider
         });
         $gate->define('update-user', function ($user, \App\User $watchingUser) {
             if($user->isViewer()) {
+                if($user->id == $watchingUser->id) {
+                    return true;
+                }
                 return false;
             }
             if($user->isAuthor()) {
