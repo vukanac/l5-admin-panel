@@ -162,6 +162,14 @@ class UserRolesUserTest extends TestCase
             ->see($userNew->name);
     }
 
+    public function test_owner_can_edit_self()
+    {
+        $user = factory(User::class, 'owner')->create();
+        $this->actingAs($user)
+             ->get('/user/'.$user->id.'/edit')
+             ->assertResponseStatus(200);
+    }
+
     public function test_owner_cannot_change_his_own_role()
     {
         $owner = factory(User::class, 'owner')->create();
@@ -222,6 +230,14 @@ class UserRolesUserTest extends TestCase
              ->dontSee('edit-user-'.$user->id);
     }
 
+    public function test_admin_can_edit_self()
+    {
+        $user = factory(User::class, 'admin')->create();
+        $this->actingAs($user)
+             ->get('/user/'.$user->id.'/edit')
+             ->assertResponseStatus(200);
+    }
+
     public function test_admin_can_delete_user()
     {
         $admin = factory(User::class, 'admin')->create();
@@ -268,6 +284,14 @@ class UserRolesUserTest extends TestCase
              ->see('edit-user-'.$userTwo->id)
              ->click('edit-user-'.$userTwo->id)
              ->seePageIs('/user/'.$userTwo->id.'/edit');
+    }
+
+    public function test_manager_can_edit_self()
+    {
+        $user = factory(User::class, 'manager')->create();
+        $this->actingAs($user)
+             ->get('/user/'.$user->id.'/edit')
+             ->assertResponseStatus(200);
     }
 
     public function test_manager_cannot_change_user_role()
@@ -318,6 +342,14 @@ class UserRolesUserTest extends TestCase
              ->assertResponseStatus(403);
     }
 
+    public function test_author_can_edit_self()
+    {
+        $user = factory(User::class, 'author')->create();
+        $this->actingAs($user)
+             ->get('/user/'.$user->id.'/edit')
+             ->assertResponseStatus(200);
+    }
+
     public function test_author_cannot_delete_user()
     {
         $author = factory(User::class, 'author')->create();
@@ -352,8 +384,8 @@ class UserRolesUserTest extends TestCase
     {
         $user = factory(User::class, 'viewer')->create();
         $this->actingAs($user)
-             ->visit('/users')
-             ->see('edit-user-'.$user->id);
+             ->get('/user/'.$user->id.'/edit')
+             ->assertResponseStatus(200);
     }
 
     public function test_viewer_cannot_delete_user()

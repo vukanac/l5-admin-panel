@@ -117,10 +117,26 @@ class AuthServiceProvider extends ServiceProvider
             return false;
         });
         $gate->define('update-user', function ($user, \App\User $watchingUser) {
-            if($user->isViewer()) {
-                if($user->id == $watchingUser->id) {
+            if($user->id == $watchingUser->id) {
+                if($user->isViewer()) {
                     return true;
                 }
+                if($user->isAuthor()) {
+                    return true;
+                }
+                if($user->isManager()) {
+                    return true;
+                }
+                if($user->isAdmin()) {
+                    return true;
+                }
+                if($user->isOwner()) {
+                    return true;
+                }
+                return false;
+            }
+            
+            if($user->isViewer()) {
                 return false;
             }
             if($user->isAuthor()) {
