@@ -162,18 +162,18 @@ class UserRolesUserTest extends TestCase
             ->see($userNew->name);
     }
 
-    // public function test_owner_cannot_change_owners_role()
-    // {
-    //     $owner = factory(User::class, 'owner')->create();
+    public function test_owner_cannot_change_his_own_role()
+    {
+        $owner = factory(User::class, 'owner')->create();
         
-    //     $this->actingAs($owner)
-    //         ->visit('/user/'.$owner->id.'/edit')
-    //         ->see($owner->name)
-    //         ->see($owner->id)
-    //         ->see($owner->email)
-    //         ->see('Edit User')
-    //         ->dontSee('name="role"');
-    // }
+        $this->actingAs($owner)
+            ->visit('/user/'.$owner->id.'/edit')
+            ->see($owner->name)
+            ->see($owner->id)
+            ->see($owner->email)
+            ->see('Edit User')
+            ->dontSee('name="role"');
+    }
 
     public function test_admin_can_create_user_with_role_except_owner()
     {
