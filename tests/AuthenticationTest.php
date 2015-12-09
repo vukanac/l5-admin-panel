@@ -76,15 +76,26 @@ class AuthenticationTest extends TestCase
              ->see('These credentials do not match our records.');
     }
 
-    // /**
-    //  * Reset password
-    //  *
-    //  * @return void
-    //  */
-    // public function testResetPassword()
-    // {
-  
-    // }
+    /**
+     * Reset password
+     *
+     * @return void
+     */
+    public function test_i_can_reset_password()
+    {
+        $user = factory(User::class, 'admin')->create();
+
+        // see password reset form
+        $this->visit('/auth/login')
+             ->see('Forgot password?')
+             ->click('Forgot password?')
+             ->seePageIs('/password/email')
+             ->see('name="email"')
+             ->see('Send Password Reset Link')
+             ->type($user->email, 'email')
+             ->press('Send Password Reset Link')
+             ->see('We have e-mailed your password reset link!');
+    }
 
     // public function testResetPasswordLinkExists()
     // {

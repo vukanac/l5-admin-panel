@@ -59,6 +59,9 @@
                         <a href="/auth/register" class="btn btn-default">
                             <i class="fa fa-btn fa-user-plus" style="margin-right: 5px;"></i>Register
                         </a>
+                        <a href="/password/email" class="btn btn-default">
+                            <i class="fa fa-btn fa-heartbeat" style="margin-right: 5px;"></i>Forgot password?
+                        </a>
                     </div>
                 </div>
             </div>
