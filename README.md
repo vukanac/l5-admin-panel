@@ -34,6 +34,7 @@ To do anything user must be logged.
 5. Companies (List, Add, Delete, Show Details)
 6. Prepare Master Layout for Localization
 7. Prepare Companies part layout for Localization
+8. Reset password
 
 
 ## Install
@@ -58,6 +59,13 @@ Read section below [While in Dev](#while-in-dev).
 6. Instead of `home` set `dashboard` to be first page after login
 7. Add functional tests: Register, LoginLogout, Logout redirect.
 
+
+### Reset password
+
+If user forget password he can make reset request by filling form with email,
+and email with unique token will be sent to his email address.
+On clicking on email with token url he is able to fill new password in form,
+and it will be directly logged to Admin panel and redirected to `/companies/`.
 
 
 

@@ -81,9 +81,9 @@ class AuthenticationTest extends TestCase
      *
      * @return void
      */
-    public function test_i_can_reset_password()
+    public function test_i_can_see_forgot_password_link_and_reset_password_email_form()
     {
-        $user = factory(User::class, 'admin')->create();
+        $user = factory(User::class, 'admin')->make();
 
         // see password reset form
         $this->visit('/auth/login')
@@ -93,14 +93,64 @@ class AuthenticationTest extends TestCase
              ->see('name="email"')
              ->see('Send Password Reset Link')
              ->type($user->email, 'email')
-             ->press('Send Password Reset Link')
-             ->see('We have e-mailed your password reset link!');
+             // ->press('Send Password Reset Link')
+             // ->see('We have e-mailed your password reset link!');
+             ;
     }
 
-    // public function testResetPasswordLinkExists()
-    // {
-        
-    // }
+    public function testResetPasswordWrongEmail()
+    {
+        $user = factory(User::class, 'admin')->make();
+
+        // see password reset form
+        $this->visit('/auth/login')
+             ->dontSeeInDatabase('users', ['email' => $user->email])
+             ->see('Forgot password?')
+             ->click('Forgot password?')
+             ->seePageIs('/password/email')
+             ->see('name="email"')
+             ->see('Send Password Reset Link')
+             ->type($user->email, 'email')
+             ->press('Send Password Reset Link')
+             ->see('Whoops!')
+             ->see('We can\'t find a user with that e-mail address.');
+    }
+
+
+
+    public function test_i_can_see_reset_password_with_emailed_token()
+    {
+        $user = factory(User::class, 'admin')->create();
+        $token = 'TOKENfromEMAIL';
+
+        $this->visit('/password/reset/'.$token)
+             ->see('name="email"')
+             ->see('name="password"')
+             ->see('name="password_confirmation"')
+             ->see('Reset Password')
+             ->type($user->email, 'email')
+             ->type($user->password, 'password')
+             ->type($user->password, 'password_confirmation')
+             ->press('Reset Password')
+             ->see('This password reset token is invalid.');
+    }
+
+    public function test_i_cannot_reset_password_without_confirmation_password()
+    {
+        $user = factory(User::class, 'admin')->create();
+        $token = 'TOKENfromEMAIL';
+
+        $this->visit('/password/reset/'.$token)
+             ->see('name="email"')
+             ->see('name="password"')
+             ->see('name="password_confirmation"')
+             ->see('Reset Password')
+             ->type($user->email, 'email')
+             ->type($user->password, 'password')
+             ->type($user->password . '-XXXXXX', 'password_confirmation')
+             ->press('Reset Password')
+             ->see('The password confirmation does not match');
+    }
 
     // public function testResetPasswordWithToken()
     // {

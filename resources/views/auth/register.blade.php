@@ -13,7 +13,7 @@
                     <!-- Display Validation Errors -->
                     @include('common.errors')
 
-                    <!-- New Task Form -->
+                    <!-- New User Form -->
                     <form action="/auth/register" method="POST" class="form-horizontal">
                         {{ csrf_field() }}
 
