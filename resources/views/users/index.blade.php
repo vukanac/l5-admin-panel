@@ -92,7 +92,7 @@
                 </div>
 
                 <div class="panel-body">
-                    <table class="table table-striped user-table">
+                    <table class="table table-striped table-hover user-table">
 
                         <!-- Table Headings -->
                         <thead>
@@ -116,36 +116,28 @@
                                         </div>
                                     </td>
 
-                                    <td>
+                                    <td class="text-right">
                                         @can('update-user', $user)
-
-                                        <div style="float: left;">
-                                            <!-- Edit Button -->
-                                            <a href="{{ url('user/'.$user->id.'/edit') }}"
-                                                id="edit-user-{{ $user->id }}"
-                                                class="btn btn-default"
-                                                role="button"
-                                                >Edit</a>
-                                        </div>
-                                        @else
-                                        &nbsp;
+                                        <!-- Edit Button -->
+                                        <a href="{{ url('user/'.$user->id.'/edit') }}"
+                                            id="edit-user-{{ $user->id }}"
+                                            class="btn btn-default"
+                                            role="button"
+                                            >Edit</a>
                                         @endcan
-
                                         @can('destroy-user', $user)
                                         <!-- Delete Button -->
-                                        <div style="float: left;">
-                                            <form action="{{ url('user/'.$user->id) }}" method="POST">
-                                                {{ csrf_field() }}
-                                                {{ method_field('DELETE') }}
+                                        <form style="display: inline;"
+                                            action="{{ url('user/'.$user->id) }}"
+                                            method="POST">
+                                            {{ csrf_field() }}
+                                            {{ method_field('DELETE') }}
 
-                                                <button id="delete-user-{{ $user->id }}"
-                                                    class="btn btn-default"
-                                                    role="button"
-                                                    >Delete</button>
-                                            </form>
-                                        </div>
-                                        @else
-                                        &nbsp;
+                                            <button id="delete-user-{{ $user->id }}"
+                                                class="btn btn-default"
+                                                role="button"
+                                                >Delete</button>
+                                        </form>
                                         @endcan
                                     </td>
                                 </tr>

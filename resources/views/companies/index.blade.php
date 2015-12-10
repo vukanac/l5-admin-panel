@@ -53,7 +53,7 @@
                 </div>
 
                 <div class="panel-body">
-                    <table class="table table-striped company-table">
+                    <table class="table table-striped table-hover company-table">
 
                         <!-- Table Headings -->
                         <thead>
@@ -76,20 +76,20 @@
                                         @endcan
                                     </div>
                                 </td>
-                                <td>
+                                <td class="text-right">
                                     @can('update-company', $company)
                                     <!-- Edit Button -->
-                                    <a href="company/{{ $company->id }}/edit"
+                                    <a href="{{ url('company/'.$company->id.'/edit') }}"
                                         id="edit-company-{{ $company->id }}"
                                         class="btn btn-default"
                                         role="button"
                                         >Edit</a>
-                                    @else
-                                        &nbsp;
                                     @endcan
                                     @can('destroy-company', $company)
                                     <!-- Delete Button -->
-                                    <form action="/company/{{ $company->id }}" method="POST">
+                                    <form style="display: inline;"
+                                        action="{{ url('company/'.$company->id) }}"
+                                        method="POST">
                                         {{ csrf_field() }}
                                         {{ method_field('DELETE') }}
 
@@ -97,8 +97,6 @@
                                             class="btn btn-default"
                                             >Delete</button>
                                     </form>
-                                    @else
-                                        &nbsp;
                                     @endcan
                                 </td>
                             </tr>
@@ -107,7 +105,7 @@
                     </table>
                 </div>
             </div>
-            @endif
+            @endif  
         </div>
     </div>
 @endsection
