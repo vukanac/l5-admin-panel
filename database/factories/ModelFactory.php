@@ -54,6 +54,7 @@ $factory->defineAs(App\User::class, 'viewer', function (Faker\Generator $faker) 
 
 $factory->define(App\Company::class, function (Faker\Generator $faker) {
     return [
-        'name' => $faker->sentence
+        'name' => $faker->sentence,
+        'email' => $faker->email,
     ];
 });
