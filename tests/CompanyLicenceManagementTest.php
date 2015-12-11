@@ -29,4 +29,18 @@ class CompanyLicenceManagementTest extends TestCase
         $this->assertEquals($date->toDateString(), $companyAgain->licence_expire_at);
     }
 
+    public function test_new_company_is_suspended()
+    {
+        $company = factory(Company::class)->create();
+        $this->seeInDatabase('companies', ['id' => $company->id, 'is_suspended' => true]);
+
+        $company->is_suspended = false;
+        $company->save();
+
+        $this->seeInDatabase('companies', ['id' => $company->id, 'is_suspended' => false]);
+
+        $companyAgain = Company::find($company->id);
+        $this->assertEquals(false, $companyAgain->is_suspended);
+    }
+
 }
