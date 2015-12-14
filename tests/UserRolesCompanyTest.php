@@ -170,4 +170,35 @@ class UserRolesCompanyTest extends TestCase
              ->dontSee('delete-company-'.$company->id);
     }
 
+    public function test_viewer_cannot_create_company()
+    {
+        $user = factory(User::class, 'viewer')->create();
+        $this->actingAs($user)
+             ->visit('/companies')
+             ->see('User is not authorised to Create Company.')
+             ->dontSee('Add Company');
+    }
+
+    public function test_viewer_cannot_edit_company_dont_see_edit_company_button()
+    {
+        $owner = factory(User::class, 'owner')->create();
+        $owner->companies()->save($company = factory(Company::class)->create());
+
+        $user = factory(User::class, 'viewer')->create();
+        $this->actingAs($user)
+             ->visit('/companies')
+             ->dontSee('edit-company-'.$company->id);
+    }
+
+    public function test_viewer_cannot_delete_company()
+    {
+        $owner = factory(User::class, 'owner')->create();
+        $owner->companies()->save($company = factory(Company::class)->create());
+
+        $user = factory(User::class, 'viewer')->create();
+        $this->actingAs($user)
+             ->visit('/companies')
+             ->dontSee('delete-company-'.$company->id);
+    }
+
 }

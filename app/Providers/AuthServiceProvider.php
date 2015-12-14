@@ -41,11 +41,11 @@ class AuthServiceProvider extends ServiceProvider
         });
         $gate->define('update-company', function ($user, \App\Company $company) {
             $can = $user->isAdmin() || $user->isManager();
-            $cannot = $user->isAuthor();
+            $cannot = $user->isAuthor() || $user->isViewer();
             return $can || !$cannot;
         });
         $gate->define('destroy-company', function ($user, \App\Company $company) {
-            $cannot = $user->isAuthor();
+            $cannot = $user->isAuthor() || $user->isViewer();
             return !$cannot;
         });
         $gate->define('create-company', function ($user) {
