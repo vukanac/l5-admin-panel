@@ -38,7 +38,7 @@ class UserRolesCompanyTest extends TestCase
             $user = factory(User::class, $role)->create();
             $this->actingAs($user)
                  ->get('/company/'.$company->id)
-                 ->assertResponseStatus(200);    
+                 ->assertResponseStatus(200);
         }
     }
 

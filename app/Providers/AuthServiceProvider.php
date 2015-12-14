@@ -58,23 +58,23 @@ class AuthServiceProvider extends ServiceProvider
             return true;
         });
         $gate->define('create-user', function ($user) {
-            if($user->isViewer()) {
+            if ($user->isViewer()) {
                 return false;
             }
-            if($user->isAuthor()) {
+            if ($user->isAuthor()) {
                 return false;
             }
-            if($user->isManager()) {
+            if ($user->isManager()) {
                 return false;
             }
-            if($user->isAdmin()) {
+            if ($user->isAdmin()) {
                 return true;
             }
             return $user->isOwner();
         });
 
         $gate->define('change-user-role', function ($user, \App\User $watchingUser = null) {
-            if(isset($watchingUser) && $watchingUser->isOwner()) {
+            if (isset($watchingUser) && $watchingUser->isOwner()) {
                 return false;
             }
             $can = $user->isOwner() || $user->isAdmin();
@@ -88,23 +88,23 @@ class AuthServiceProvider extends ServiceProvider
             // - destroy self
             // - destroy owner - nobody can destroy owner!!!
 
-            if($user->isViewer()) {
+            if ($user->isViewer()) {
                 return false;
             }
-            if($user->isAuthor()) {
+            if ($user->isAuthor()) {
                 return false;
             }
-            if($user->isManager()) {
+            if ($user->isManager()) {
                 return false;
             }
-            if($user->isAdmin()) {
+            if ($user->isAdmin()) {
                 if($watchingUser->isOwner()) {
                     return false;
                 }
                 return true;
             }
-            if($user->isOwner()) {
-                if($watchingUser->isOwner()) {
+            if ($user->isOwner()) {
+                if ($watchingUser->isOwner()) {
                     return false;
                 }
                 return true;
@@ -117,32 +117,32 @@ class AuthServiceProvider extends ServiceProvider
             return false;
         });
         $gate->define('update-user', function ($user, \App\User $watchingUser) {
-            if($user->id == $watchingUser->id) {
+            if ($user->id == $watchingUser->id) {
                 // every user role can edit personal profile
                 // can: [owner, admin, manager, author, viewer]
                 // cannot: []
                 return true;
             }
             
-            if($user->isViewer()) {
+            if ($user->isViewer()) {
                 return false;
             }
-            if($user->isAuthor()) {
+            if ($user->isAuthor()) {
                 return false;
             }
-            if($user->isManager()) {
+            if ($user->isManager()) {
                 if($watchingUser->isOwner()) {
                     return false;
                 }
                 return true;
             }
-            if($user->isAdmin()) {
-                if($watchingUser->isOwner()) {
+            if ($user->isAdmin()) {
+                if ($watchingUser->isOwner()) {
                     return false;
                 }
                 return true;
             }
-            if($user->isOwner()) {
+            if ($user->isOwner()) {
                 return true;
             }
             return false;

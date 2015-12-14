@@ -40,7 +40,7 @@ class CompanyLicenceManagementTest extends TestCase
         $this->seeInDatabase('companies', ['id' => $company->id, 'is_suspended' => false]);
 
         $companyAgain = Company::find($company->id);
-        $this->assertEquals(false, $companyAgain->is_suspended);
+        $this->assertEquals(false, (boolean) $companyAgain->is_suspended);
     }
 
 }

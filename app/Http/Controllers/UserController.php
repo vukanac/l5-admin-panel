@@ -96,8 +96,6 @@ class UserController extends Controller
      */
     public function edit(Request $request, User $user)
     {
-        $userLogged = $request->user();
-
         $this->authorize('update-user', $user);
         
         return view('users.edit', [
@@ -162,5 +160,4 @@ class UserController extends Controller
         
         return redirect('/users');
     }
-    
 }

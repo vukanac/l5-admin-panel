@@ -17,7 +17,7 @@ class UserRolesUserTest extends TestCase
     use DatabaseTransactions;
 
     /**
-     * Owner to create new users 
+     * Owner to create new users
      */
     public function test_owner_can_create_user_but_not_owner()
     {

@@ -22,12 +22,12 @@ class SendApprovalEmailTest extends TestCase
      */
     public function test_send_email_have_clean_exit()
     {
-    	$company = factory(Company::class)->create();
+        $company = factory(Company::class)->create();
 
-    	$this->seeInDatabase('companies', ['id' => $company->id]);
+        $this->seeInDatabase('companies', ['id' => $company->id]);
 
-    	$sae = new SendApprovalEmail($company->id);
-    	$actual = $sae->run();
+        $sae = new SendApprovalEmail($company->id);
+        $actual = $sae->run();
 
         $this->assertEquals(0, $actual);
     }

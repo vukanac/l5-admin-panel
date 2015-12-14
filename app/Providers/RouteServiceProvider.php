@@ -26,11 +26,11 @@ class RouteServiceProvider extends ServiceProvider
      */
     public function boot(Router $router)
     {
-        $router->model('company', \App\Company::class, function() {
+        $router->model('company', \App\Company::class, function () {
             throw new NotFoundHttpException;
             //App::abort(404, 'Company not found');
         });
-        $router->model('user', \App\User::class, function() {
+        $router->model('user', \App\User::class, function () {
             throw new NotFoundHttpException;
             //App::abort(404, 'User not found');
         });

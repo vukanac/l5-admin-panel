@@ -14,13 +14,9 @@
 use App\Company;
 use Illuminate\Http\Request;
 
-
 Route::get('/', function () {
     return view('welcome');
 });
-
-
-
 
 // Route::get('/', ['middleware' => 'auth', function () {
 //     return Redirect::to('users.dashboard')->with('message', 'Login Failed');

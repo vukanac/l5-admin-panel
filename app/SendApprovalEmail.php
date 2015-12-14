@@ -23,7 +23,8 @@ class SendApprovalEmail implements ActionInterface
      *
      * @param $company Company
      */
-    public function __construct($companyId) {
+    public function __construct($companyId)
+    {
         $this->companyId = $companyId;
     }
 
