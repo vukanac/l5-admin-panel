@@ -58,3 +58,14 @@ $factory->define(App\Company::class, function (Faker\Generator $faker) {
         'email' => $faker->email,
     ];
 });
+
+$factory->define(App\Schedule::class, function (Faker\Generator $faker) {
+    return [
+        'run_at' => $faker->dateTimeBetween($startDate = '-1 month', $endDate = '+1 month'), // DateTime('2003-03-15 02:00:49'),
+        'action' => App\SendApprovalEmail::class,
+        'who_object' => App\Company::class,
+        'who_id' => 1,
+        'parameters' => json_encode(array()),
+        'status' => 'new'
+    ];
+});
