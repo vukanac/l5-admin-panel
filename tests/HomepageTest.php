@@ -12,6 +12,8 @@ use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class HomepageTest extends TestCase
 {
+    use DatabaseTransactions;
+    
     /**
      * A basic test example.
      *

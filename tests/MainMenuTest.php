@@ -12,6 +12,8 @@ use Illuminate\Foundation\Testing\DatabaseTransactions;
 class MainMenuTest extends TestCase
 {
 
+    use DatabaseTransactions;
+
     public function test_Register_option_is_in_menu()
     {
         $this->visit('/')

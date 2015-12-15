@@ -15,6 +15,8 @@ use Illuminate\Foundation\Testing\DatabaseTransactions;
 class SendApprovalEmailTest extends TestCase
 {
 
+    use DatabaseTransactions;
+
     /**
      * A basic test example.
      *
