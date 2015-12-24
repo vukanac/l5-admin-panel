@@ -1,7 +1,9 @@
 <?php
 
-namespace App;
+namespace App\Model\ActionQueue;
 
+use App\Company;
+use App\Model\ActionQueue\ActionCommandInterface;
 
 class ActionCommandSendReminderEmailCommand implements ActionCommandInterface
 {
@@ -40,14 +42,16 @@ class ActionCommandSendReminderEmailCommand implements ActionCommandInterface
     /**
      * Invoke Receivers Method
      *
-     * invokeReceiversMethod
+     * Prepare and invokeReceiversMethod
      *
      * - will call $receiver->methodToInvoke($params);
      * -> Mail::send($params)
+     *
+     * @return Number of emails sent
      */
     public function execute()
     {
         $this->prepare();
-        $this->receiverObj->methodToInvoke($this->receiverMethodParams);
+        return $this->receiverObj->methodToInvoke($this->receiverMethodParams);
     }
 }
