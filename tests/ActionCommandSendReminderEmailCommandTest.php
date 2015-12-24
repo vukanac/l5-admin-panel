@@ -3,16 +3,16 @@
 namespace Test;
 
 use App\User;
-use App\Company;
 use App\Role;
-use App\SendReminderEmail;
+use App\Company;
+use App\ActionCommandSendReminderEmailCommand;
 
 use TestCase;
 use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
-class SendReminderEmailTest extends TestCase
+class ActionCommandSendReminderEmailCommandTest extends TestCase
 {
 
     use DatabaseTransactions;
@@ -28,8 +28,8 @@ class SendReminderEmailTest extends TestCase
 
         $this->seeInDatabase('companies', ['id' => $company->id]);
 
-        $sendEmail = new SendReminderEmail($company->id);
-        $actual = $sendEmail->run();
+        $sendEmail = new ActionCommandSendReminderEmailCommand($company->id);
+        $actual = $sendEmail->execute();
 
         $this->assertEquals(0, $actual);
     }
