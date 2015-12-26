@@ -3,26 +3,25 @@
 namespace Test;
 
 use App\Company;
+use App\Schedule;
+use App\Model\ActionQueue\ActionCommandClient;
+use App\Model\ActionQueue\ActionCommandFactory;
 use App\Model\ActionQueue\ActionCommandInvoker;
 use App\Model\ActionQueue\ActionCommandMailReceiver;
 use App\Model\ActionQueue\ActionCommandSendReminderEmailCommand;
 
 use Mail;
 use Mockery as m;
+use Carbon\Carbon;
 
 use TestCase;
 use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
-class ActionCommandInvokerTest extends TestCase
+class ActionCommandClientTest extends TestCase
 {
     use DatabaseTransactions;
-
-    public function tearDown()
-    {
-        m::close();
-    }
 
     public function mockEmail($fromEmail, $fromName, $user, $subject, $emailTemplate, $returnNumberOfEmailsSent = 1)
     {
@@ -62,12 +61,16 @@ class ActionCommandInvokerTest extends TestCase
                 'Licence Reminder',
                 'emails.company-reminder'
             );
+        $schedule = factory(Schedule::class)->create([
+            'run_at' => Carbon::now()->toDateString(),
+            'who_object' => Company::class,
+            'who_id' => $company->id,
+            'action' => ActionCommandSendReminderEmailCommand::class,
+            ]);
 
-        $commandObj = new ActionCommandSendReminderEmailCommand($company->id);
-        
-        $invokerObj = new ActionCommandInvoker($commandObj);
-        $actualNumberOfEmailSent = $invokerObj->executeCommand(); // $commandObj->execute();
+        $client = new ActionCommandClient();
+        $resultsOfCommands = $client->run();
 
-        $this->assertEquals(1, $actualNumberOfEmailSent);
+        $this->assertEquals([['result' => 1]], $resultsOfCommands);
     }
 }

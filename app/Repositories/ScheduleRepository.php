@@ -6,6 +6,8 @@ use App\User;
 use App\Company;
 use App\Schedule;
 
+use Carbon\Carbon;
+
 class ScheduleRepository
 {
     /**
@@ -38,5 +40,14 @@ class ScheduleRepository
         $whoId = $obj->id;
 
         return $this->removeAll($whoObject, $whoId);
+    }
+
+
+
+
+    public function getActionsForDate(Carbon $dateRunAt)
+    {
+        return Schedule::where('run_at', $dateRunAt->toDateString())
+                    ->get();
     }
 }
