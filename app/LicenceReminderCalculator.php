@@ -32,6 +32,8 @@ class LicenceReminderCalculator
 	 * @param string $expirationDate  Expitsyion Date in Y-m-d format
 	 * @param array $reminderDays  List of number of days
 	 * @return array  List of dates when to remind
+	 *
+	 * @assert ('2016-01-30', [5, 10, 20]) == [5 =>'2016-01-25',10=>'2016-01-20',20=>'2016-01-10'].
 	 */
 	public function getReminderDates($expirationDate, $reminderDays)
 	{

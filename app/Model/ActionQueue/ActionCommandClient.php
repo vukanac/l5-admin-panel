@@ -6,9 +6,7 @@ use Carbon\Carbon;
 use App\Repositories\ScheduleRepository;
 use App\ActionCommandFactory;
 
-/**
-* 
-*/
+
 class ActionCommandClient
 {
     private $invoker;
@@ -47,7 +45,10 @@ class ActionCommandClient
             $invokerObj = new ActionCommandInvoker($commandObj);
             $commandResult = $invokerObj->executeCommand();
 
-            $result[] = ['result' => $commandResult];
+            $result[] = [
+                'command' => get_class($commandObj),
+                'result' => $commandResult
+                ];
         }
 
         return $result;

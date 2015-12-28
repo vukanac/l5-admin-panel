@@ -44,6 +44,7 @@ To do anything user must be logged.
 3. composer install
 4. php artisan key:generate
 5. php artisan migrate
+6. set cron job for scheduler
 
 Read section below [While in Dev](#while-in-dev).
 
@@ -166,6 +167,17 @@ Other solution is to wrap visit in `try` and assert match exception status code 
 Note:
 
 * `assertResponseStatus()` should be called after `see()` - it does not return fluent object. [Laravel issue#11106](https://github.com/laravel/framework/issues/11106)
+
+##### Test cron script
+
+In production cron will every minute run this script:
+
+    php artisan schedule:run
+
+we can also run this command to test it.
+
+Laravel scheduled cron commands are definde in `schedule` method of Kernel class in `app/Console/Kernel.php`.
+
 
 ### Jenkins
 

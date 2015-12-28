@@ -14,6 +14,7 @@ class Kernel extends ConsoleKernel
      */
     protected $commands = [
         \App\Console\Commands\Inspire::class,
+        \App\Console\Commands\License::class,
     ];
 
     /**
@@ -26,5 +27,9 @@ class Kernel extends ConsoleKernel
     {
         $schedule->command('inspire')
                  ->hourly();
+
+        $schedule->call(function () {
+           \App\Model\ActionQueue\ActionCommandScheduled::run();
+        })->daily();
     }
 }

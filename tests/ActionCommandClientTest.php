@@ -71,6 +71,11 @@ class ActionCommandClientTest extends TestCase
         $client = new ActionCommandClient();
         $resultsOfCommands = $client->run();
 
-        $this->assertEquals([['result' => 1]], $resultsOfCommands);
+        $expected = [[
+            'result' => 1,
+            'command' => ActionCommandSendReminderEmailCommand::class,
+            ]];
+
+        $this->assertEquals($expected, $resultsOfCommands);
     }
 }
