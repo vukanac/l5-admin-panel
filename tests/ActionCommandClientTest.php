@@ -80,4 +80,44 @@ class ActionCommandClientTest extends TestCase
 
         $this->assertEquals($expected, $resultsOfCommands);
     }
+
+
+    public function test_run_successfull_scheduled_action_only_once()
+    {
+        $company = factory(Company::class)->create();
+        $date = Carbon::now();
+        
+        $schedule = factory(Schedule::class)->create([
+            'run_at' => $date->toDateString(),
+            'who_object' => Company::class,
+            'who_id' => $company->id,
+            'action' => ActionCommandSendReminderEmailCommand::class,
+            'status' => 'new'
+            ]);
+        $schedule = factory(Schedule::class)->create([
+            'run_at' => $date->toDateString(),
+            'who_object' => Company::class,
+            'who_id' => $company->id,
+            'action' => ActionCommandSendReminderEmailCommand::class,
+            'status' => 'done'
+            ]);
+
+        $client = new ActionCommandClient();
+
+        $this->assertCount(2, $client->getActionsForDate($date));
+        $this->assertCount(1, $client->getNewActionsForDate($date));
+
+        $schedule = factory(Schedule::class)->create([
+            'run_at' => $date->toDateString(),
+            'who_object' => Company::class,
+            'who_id' => $company->id,
+            'action' => ActionCommandSendReminderEmailCommand::class,
+            'status' => 'new'
+            ]);
+
+
+        $this->assertCount(3, $client->getActionsForDate($date));
+        $this->assertCount(2, $client->getNewActionsForDate($date));
+
+    }
 }

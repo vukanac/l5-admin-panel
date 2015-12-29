@@ -50,4 +50,11 @@ class ScheduleRepository
         return Schedule::where('run_at', $dateRunAt->toDateString())
                     ->get();
     }
+
+    public function getNewActionsForDate(Carbon $dateRunAt)
+    {
+        return Schedule::where('run_at', $dateRunAt->toDateString())
+                    ->where('status', 'new')
+                    ->get();
+    }
 }

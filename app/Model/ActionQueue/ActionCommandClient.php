@@ -33,11 +33,16 @@ class ActionCommandClient
         return $this->scheduleRepository->getActionsForDate($date);
     }
 
+    public function getNewActionsForDate($date)
+    {
+        return $this->scheduleRepository->getNewActionsForDate($date);
+    }
+
     public function fillCommands()
     {
         // get list of action to be executed
         $date = Carbon::now();
-        $scheduleRows = $this->getActionsForDate($date);
+        $scheduleRows = $this->getNewActionsForDate($date);
 
         // look in actions list - pack all in command obj
         foreach($scheduleRows as $schedule) {
