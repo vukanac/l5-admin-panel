@@ -74,6 +74,8 @@ class ActionCommandClientTest extends TestCase
         $expected = [[
             'result' => 1,
             'command' => ActionCommandSendReminderEmailCommand::class,
+            'success' => true,
+            'message' => '',
             ]];
 
         $this->assertEquals($expected, $resultsOfCommands);

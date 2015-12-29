@@ -11,13 +11,33 @@ class ActionCommandClient
 {
     private $invoker;
     private $commands = [];
+
+    private $scheduleRepository;
     
-    function __construct()
+    function __construct(ScheduleRepository $scheduleRepository = null)
+    {
+        $this->initScheduleRepository($scheduleRepository);
+        $this->fillCommands();
+    }
+
+    public function initScheduleRepository($scheduleRepository)
+    {
+        if($scheduleRepository == null) {
+            $scheduleRepository = new ScheduleRepository();
+        }
+        $this->scheduleRepository = $scheduleRepository;
+    }
+
+    public function getActionsForDate($date)
+    {
+        return $this->scheduleRepository->getActionsForDate($date);
+    }
+
+    public function fillCommands()
     {
         // get list of action to be executed
-        $scheduleRepository = new ScheduleRepository();
         $date = Carbon::now();
-        $scheduleRows = $scheduleRepository->getActionsForDate($date);
+        $scheduleRows = $this->getActionsForDate($date);
 
         // look in actions list - pack all in command obj
         foreach($scheduleRows as $schedule) {
@@ -26,9 +46,11 @@ class ActionCommandClient
             $id = $schedule->who_id;
 
             $commandObj = ActionCommandFactory::create($actionName, $id);
-            $this->commands[] = $commandObj;
+            $this->commands[] = [
+                'schedule' => $schedule,
+                'command' => $commandObj
+                ];
         }
-        
     }
 
     public function run()
@@ -40,17 +62,45 @@ class ActionCommandClient
 
         $result = [];
 
-        foreach ($this->commands as $commandObj) {
+        foreach ($this->commands as $pair) {
+            // TODO: How to get schedule here? in order to bookkeep.
+            $commandObj = $pair['command'];
 
-            $invokerObj = new ActionCommandInvoker($commandObj);
-            $commandResult = $invokerObj->executeCommand();
+            $this->bookkeepStart($pair['schedule']);
+
+            $success = true;
+            $message = '';
+            $commandResult = '';
+            try {
+                $invokerObj = new ActionCommandInvoker($commandObj);
+                $commandResult = $invokerObj->executeCommand();
+            } catch (\Exception $e) {
+                $success = false;
+                $message = $e->getMessage();
+            }
 
             $result[] = [
                 'command' => get_class($commandObj),
-                'result' => $commandResult
+                'result' => $commandResult,
+                'success' => $success,
+                'message' => $message,
                 ];
+
+            $this->bookkeepFinish($success, $pair['schedule']);
         }
 
         return $result;
+    }
+    public function bookkeepStart($schedule)
+    {
+        $schedule->started_at = Carbon::now();
+        $schedule->status = 'in_progress';
+        $schedule->save();
+    }
+    public function bookkeepFinish($success, $schedule)
+    {
+        $schedule->status = $success ? 'done' : 'new';
+        $schedule->finished_at = Carbon::now();
+        $schedule->save();
     }
 }
