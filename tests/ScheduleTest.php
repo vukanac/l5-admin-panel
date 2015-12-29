@@ -21,13 +21,34 @@ class ScheduleTest extends TestCase
      *
      * @return void
      */
-    public function test_sample_schedule_in_db()
+    public function test_save_sample_schedule_in_db()
     {
         $schedule = factory(Schedule::class)->make();
 
         $schedule->save();
 
         $this->seeInDatabase('schedules', ['id' => $schedule->id]);
+    }
+
+    public function test_save_modified_schedule_in_db()
+    {
+        $companyOne = factory(Company::class)->create();
+        // remove reminders for Company One
+        $scheduleRepository = new ScheduleRepository();
+        $scheduleRepository->removeAllForObject($companyOne);
+
+        $schedule = new Schedule([
+            'run_at' => '2015-03-15',
+            'action' => SendApprovalEmail::class,
+            'who_object' => Company::class,
+            'who_id' => $companyOne->id,
+            'parameters' => json_encode(array()),
+            'status' => 'new'
+        ]);
+        
+        $schedule->save();
+
+        $this->seeInDatabase('schedules', ['run_at' => '2015-03-15']);
     }
 
     public function test_remove_all_schedule_for_one_company()
