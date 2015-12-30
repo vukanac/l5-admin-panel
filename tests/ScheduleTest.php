@@ -4,7 +4,9 @@ namespace Test;
 
 use App\Company;
 use App\Schedule;
+use App\LicenceReminderCalculator;
 use App\Repositories\ScheduleRepository;
+use App\Model\ActionQueue\ActionCommandSendReminderEmailCommand;
 
 use TestCase;
 use Illuminate\Foundation\Testing\WithoutMiddleware;
@@ -39,7 +41,7 @@ class ScheduleTest extends TestCase
 
         $schedule = new Schedule([
             'run_at' => '2015-03-15',
-            'action' => SendApprovalEmail::class,
+            'action' => ActionCommandSendReminderEmailCommand::class,
             'who_object' => Company::class,
             'who_id' => $companyOne->id,
             'parameters' => json_encode(array()),
@@ -49,6 +51,86 @@ class ScheduleTest extends TestCase
         $schedule->save();
 
         $this->seeInDatabase('schedules', ['run_at' => '2015-03-15']);
+    }
+
+    public function test_add_schedule_with_repository()
+    {
+        $company = factory(Company::class)->create();
+
+        // remove reminders for Company One
+        $scheduleRepository = new ScheduleRepository();
+        $scheduleRepository->removeAllForObject($company);
+
+        $runAt = '2015-03-18';
+        $action = ActionCommandSendReminderEmailCommand::class;
+        
+        // add one action to schedule
+        $schedule = $scheduleRepository->add($runAt, $action, $company, []);
+
+        $this->seeInDatabase('schedules', ['run_at' => '2015-03-18', 'id' => $schedule->id]);
+    }
+
+    public function test_add_company_reminder_schedules_with_repository()
+    {
+        $expireAt =  '2016-03-30';
+        $remindDays = [1,2,3];
+        $remindAts = [1=>'2016-03-29',2=>'2016-03-28',3=>'2016-03-27'];
+
+        //$this->assertInstanceOf('RuntimeException', new \Exception);
+
+        $company = factory(Company::class)->create([
+            'licence_expire_at' => $expireAt
+            ]);
+
+        if(!isset($company->licence_expire_at)) {
+            throw new \Exception("Licence Expiration Date must be set first!");
+        }
+
+        // remove reminders for Company One
+        $scheduleRepository = new ScheduleRepository();
+        $scheduleRepository->removeAllForObject($company);
+
+        // add multiple actions to schedule
+        // dates when to send reminders
+        $lrc = new LicenceReminderCalculator();
+        $runAts = $lrc->getReminderDates($company->licence_expire_at, $remindDays);
+
+        $this->assertEquals($remindAts, $runAts);
+
+        $action = ActionCommandSendReminderEmailCommand::class;
+
+        $schedules = [];
+        foreach($runAts as $runAt) {
+            $schedules[$runAt] = $scheduleRepository->add($runAt, $action, $company, []);
+        }
+        $this->assertCount(count($remindAts), $schedules);
+        foreach($schedules as $runAt => $schedule) {
+            $this->seeInDatabase('schedules', ['run_at' => $runAt, 'id' => $schedule->id]);
+        }
+    }
+
+
+    public function test_add_company_multiple_reminder_schedules_with_repository()
+    {
+        // prepare
+        $expireAt =  '2016-03-30';
+        $remindDays = [1,5,20];
+        $remindAts = [1=>'2016-03-29',5=>'2016-03-25',20=>'2016-03-10'];
+
+        $company = factory(Company::class)->create([
+            'licence_expire_at' => $expireAt
+            ]);
+
+        // ------------------------------------------
+        // run
+        $lrc = new LicenceReminderCalculator();
+        $scheduleRepository = new ScheduleRepository();
+        $schedules = $scheduleRepository->addSendReminderEmail($company, $lrc);
+        // ------------------------------------------
+        // assert
+        foreach($schedules as $runAt => $schedule) {
+            $this->seeInDatabase('schedules', ['run_at' => $runAt, 'id' => $schedule->id]);
+        }
     }
 
     public function test_remove_all_schedule_for_one_company()
@@ -92,4 +174,33 @@ class ScheduleTest extends TestCase
             'who_id' => $companyTwo->id,
             ]);
     }
+
+
+
+    public function test_add_new_schedule_for_send_email_reminder_to_company2()
+    {
+        $companyOne = factory(Company::class)->create();
+        $scheduleOne = factory(Schedule::class)->make([
+            'action' => \App\SendReminderEmail::class,
+            'who_object' => Company::class,
+            'who_id' => $companyOne->id,
+            ]);
+
+        // check is saved correctly to DB
+        $this->dontSeeInDatabase('schedules', [
+            'id' => $scheduleOne->id,
+            ]);
+
+        // save new schedule
+        $scheduleOne->save();
+
+        // check is saved correctly to DB
+        $this->seeInDatabase('schedules', [
+            'id' => $scheduleOne->id,
+            'action' => \App\SendReminderEmail::class,
+            'who_object' => Company::class,
+            'who_id' => $companyOne->id,
+            ]);
+    }
+//
 }
