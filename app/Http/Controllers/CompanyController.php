@@ -123,6 +123,11 @@ class CompanyController extends Controller
     {
         $this->authorize('update-company', $company);
 
+        $this->validate($request, [
+            'name' => 'required|max:255',
+            'licence_expire_at' => 'date_format:Y-m-d'
+        ]);
+
         $company->name = $request->name;
 
         if($request->licence_expire_at != '') {
