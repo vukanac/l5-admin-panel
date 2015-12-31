@@ -11,10 +11,10 @@ use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
-class LicenceReminderCalculatorTest extends TestCase
+class LicenceReminderCalculatorUnitTest extends TestCase
 {
     /**
-     * Generated from @assert (true, 'logs/') == false.
+     * Generated from @assert ('2016-01-30', [5, 10, 20]) == [5 =>'2016-01-25',10=>'2016-01-20',20=>'2016-01-10'].
      *
      * @covers App\LicenceReminderCalculator::getReminderDates
      */

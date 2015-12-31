@@ -70,7 +70,7 @@ class ScheduleTest extends TestCase
         $this->seeInDatabase('schedules', ['run_at' => '2015-03-18', 'id' => $schedule->id]);
     }
 
-    public function test_add_company_reminder_schedules_with_repository()
+    public function test_add_company_multiple_reminder_schedules_with_repository()
     {
         $expireAt =  '2016-03-30';
         $remindDays = [1,2,3];
@@ -110,7 +110,7 @@ class ScheduleTest extends TestCase
     }
 
 
-    public function test_add_company_multiple_reminder_schedules_with_repository()
+    public function test_add_company_multiple_reminder_schedules_with_add_command_in_repository()
     {
         // prepare
         $expireAt =  '2016-03-30';
@@ -174,33 +174,4 @@ class ScheduleTest extends TestCase
             'who_id' => $companyTwo->id,
             ]);
     }
-
-
-
-    public function test_add_new_schedule_for_send_email_reminder_to_company2()
-    {
-        $companyOne = factory(Company::class)->create();
-        $scheduleOne = factory(Schedule::class)->make([
-            'action' => \App\SendReminderEmail::class,
-            'who_object' => Company::class,
-            'who_id' => $companyOne->id,
-            ]);
-
-        // check is saved correctly to DB
-        $this->dontSeeInDatabase('schedules', [
-            'id' => $scheduleOne->id,
-            ]);
-
-        // save new schedule
-        $scheduleOne->save();
-
-        // check is saved correctly to DB
-        $this->seeInDatabase('schedules', [
-            'id' => $scheduleOne->id,
-            'action' => \App\SendReminderEmail::class,
-            'who_object' => Company::class,
-            'who_id' => $companyOne->id,
-            ]);
-    }
-//
 }
