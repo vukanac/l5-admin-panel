@@ -3,6 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Company;
+use App\LicenceReminderCalculator;
+use App\Repositories\ScheduleRepository;
+
 use App\Http\Requests;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -122,7 +125,19 @@ class CompanyController extends Controller
 
         $company->name = $request->name;
 
+        if($request->licence_expire_at != '') {
+            $company->licence_expire_at = $request->licence_expire_at;
+            $company->is_suspended = false;
+        }
         $company->save();
+
+        // update schedules for SendReminderEmail(s)
+        if(isset($company->licence_expire_at)) {
+            $lrc = new LicenceReminderCalculator();
+            $scheduleRepository = new ScheduleRepository();
+            $scheduleRepository->removeAllForObject($company);
+            $schedules = $scheduleRepository->addSendReminderEmail($company, $lrc);
+        }
 
         return redirect('/companies');
     }

@@ -26,6 +26,15 @@
 							</div>
 						</div>
 
+						<!-- Company Licence -->
+						<div class="form-group">
+							<label for="company-licence-expire-at" class="col-sm-3 control-label">Licence Expiration Date</label>
+
+							<div class="col-sm-6">
+								<input type="text" name="licence_expire_at" id="company-licence-expire-at" class="form-control" value="{{ $company->licence_expire_at }}">
+							</div>
+						</div>
+
 						<!-- Add Company Button -->
 						<div class="form-group">
 							<div class="col-sm-offset-3 col-sm-6">

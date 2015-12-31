@@ -11,6 +11,6 @@ class Schedule extends Model
      *
      * @var array
      */
-    protected $fillable = ['run_at'];
+    protected $fillable = ['run_at', 'who_object', 'who_id', 'action'];
     
 }
