@@ -4,12 +4,12 @@ namespace App\Http\Controllers;
 
 use App\Company;
 use App\LicenceReminderCalculator;
+use App\Repositories\CompanyRepository;
 use App\Repositories\ScheduleRepository;
 
 use App\Http\Requests;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Repositories\CompanyRepository;
 
 class CompanyController extends Controller
 {

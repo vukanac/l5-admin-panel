@@ -238,3 +238,10 @@ Elixir requires:
 - python27 with Environment variable set on windows
 - MSWindows SDK and some lib from it in PATH
 
+
+
+### Company Licence
+
+Parts:
+
+* Save new licence
