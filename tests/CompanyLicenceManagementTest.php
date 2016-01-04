@@ -4,6 +4,7 @@ namespace Test;
 
 use App\User;
 use App\Company;
+use App\Repositories\ScheduleRepository;
 use App\Model\ActionQueue\ActionCommandSendReminderEmailCommand;
 
 use TestCase;
@@ -58,8 +59,6 @@ class CompanyLicenceManagementTest extends TestCase
         // 6. Application calculate number and dates of reminders based on expiration date and reminder configuration
         // 7. Application add calculated remainders to reminder queue.
 
-        //$this->withoutMiddleware();
-
         // emulate config set
         $expected = [3, 15];
         $expectedStr = implode(',', $expected);
@@ -99,5 +98,84 @@ class CompanyLicenceManagementTest extends TestCase
              ;
     }
 
+    /**
+     * On specific day reminder action should be listed
+     */
+    public function test_list_reminder_on_day()
+    {
+        // emulate config set
+        $expected = [1, 2];
+        $expectedStr = implode(',', $expected);
+        \Config::set('custom.remindOnDays', $expectedStr);
+
+        $user = factory(User::class, 'admin')->create();
+        $companyOne = factory(Company::class)->create();
+        $companyTwo = factory(Company::class)->create();
+
+        $this->seeInDatabase('companies', [
+                'id' => $companyOne->id,
+                'name' => $companyOne->name,
+                'licence_expire_at' => null,
+                ])
+             ->seeInDatabase('companies', [
+                'id' => $companyTwo->id,
+                'name' => $companyTwo->name,
+                'licence_expire_at' => null,
+                ])
+             ->actingAs($user)
+             ->visit('/company/'.$companyOne->id.'/edit')
+             ->see($companyOne->name)
+             ->see('name="licence_expire_at"')
+             ->type('2016-04-30', 'licence_expire_at')
+             ->press('Save Edit')
+             ->seeInDatabase('companies', [
+                'id' => $companyOne->id,
+                'licence_expire_at' => '2016-04-30',
+                'is_suspended' => false,
+                ])
+             ->seeInDatabase('schedules', [
+                'who_object' => Company::class,
+                'who_id' => $companyOne->id,
+                'run_at' => '2016-04-29',
+                'action' => ActionCommandSendReminderEmailCommand::class,
+                ])
+             ->seeInDatabase('schedules', [
+                'who_object' => Company::class,
+                'who_id' => $companyOne->id,
+                'run_at' => '2016-04-28',
+                'action' => ActionCommandSendReminderEmailCommand::class,
+                ]);
+
+        $this->visit('/company/'.$companyTwo->id.'/edit')
+             ->see($companyTwo->name)
+             ->see('name="licence_expire_at"')
+             ->type('2016-04-30', 'licence_expire_at')
+             ->press('Save Edit')
+             ->seeInDatabase('companies', [
+                'id' => $companyTwo->id,
+                'licence_expire_at' => '2016-04-30',
+                'is_suspended' => false,
+                ])
+             ->seeInDatabase('schedules', [
+                'who_object' => Company::class,
+                'who_id' => $companyTwo->id,
+                'run_at' => '2016-04-29',
+                'action' => ActionCommandSendReminderEmailCommand::class,
+                ])
+             ->seeInDatabase('schedules', [
+                'who_object' => Company::class,
+                'who_id' => $companyTwo->id,
+                'run_at' => '2016-04-28',
+                'action' => ActionCommandSendReminderEmailCommand::class,
+                ])
+             ;
+        $repository = new ScheduleRepository();
+
+        $date = new Carbon('2016-04-28');
+        $list = $repository->getActionsForDate($date);
+        $this->assertCount(2, $list);
+        $list = $repository->getNewActionsForDate($date);
+        $this->assertCount(2, $list);
+    }
 //
 }

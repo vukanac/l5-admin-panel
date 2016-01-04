@@ -245,3 +245,5 @@ Elixir requires:
 Parts:
 
 * Save new licence
+* Send reminders
+
