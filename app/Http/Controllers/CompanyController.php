@@ -6,6 +6,7 @@ use App\Company;
 use App\LicenceReminderCalculator;
 use App\Repositories\CompanyRepository;
 use App\Repositories\ScheduleRepository;
+use App\Model\ActionQueue\ActionCommandSendApprovalEmailCommand;
 
 use App\Http\Requests;
 use Illuminate\Http\Request;
@@ -142,6 +143,9 @@ class CompanyController extends Controller
             $scheduleRepository = new ScheduleRepository();
             $scheduleRepository->removeAllForObject($company);
             $schedules = $scheduleRepository->addSendReminderEmail($company, $lrc);
+            // send approval email
+            $approvalEmail = new ActionCommandSendApprovalEmailCommand($company->id);
+            $approvalEmail->execute();
         }
 
         return redirect('/companies');

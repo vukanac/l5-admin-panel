@@ -246,4 +246,6 @@ Parts:
 
 * Save new licence
 * Send reminders
+* Send approval email when new licence is saved
+
 
