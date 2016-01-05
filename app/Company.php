@@ -20,4 +20,9 @@ class Company extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    public function suspend()
+    {
+        $this->is_suspended = true;
+    }
 }
