@@ -142,8 +142,11 @@ class CompanyController extends Controller
             $lrc = new LicenceReminderCalculator();
             $scheduleRepository = new ScheduleRepository();
             $scheduleRepository->removeAllForObject($company);
-            $schedules = $scheduleRepository->addSendReminderEmail($company, $lrc);
-            // send approval email
+            // send reminders emails on configured days before expiration date
+            $reminders = $scheduleRepository->addSendReminderEmail($company, $lrc);
+            // suspend company on expiration date
+            $suspensions = $scheduleRepository->addSuspendCompany($company);
+            // send approval email now
             $approvalEmail = new ActionCommandSendApprovalEmailCommand($company->id);
             $approvalEmail->execute();
         }
