@@ -146,6 +146,9 @@ class CompanyController extends Controller
             $reminders = $scheduleRepository->addSendReminderEmail($company, $lrc);
             // suspend company on expiration date
             $suspensions = $scheduleRepository->addSuspendCompany($company);
+            // send suspension emails on expiration date
+            $suspensionEmails = $scheduleRepository->addSendSuspensionEmail($company);
+            
             // send approval email now
             $approvalEmail = new ActionCommandSendApprovalEmailCommand($company->id);
             $approvalEmail->execute();

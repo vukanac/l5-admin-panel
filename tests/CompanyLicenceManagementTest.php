@@ -7,6 +7,7 @@ use App\Company;
 use App\Repositories\ScheduleRepository;
 use App\Model\ActionQueue\ActionCommandSuspendCompanyCommand;
 use App\Model\ActionQueue\ActionCommandSendReminderEmailCommand;
+use App\Model\ActionQueue\ActionCommandSendSuspensionEmailCommand;
 
 use TestCase;
 use Carbon\Carbon;
@@ -105,6 +106,12 @@ class CompanyLicenceManagementTest extends TestCase
                 'who_id' => $company->id,
                 'run_at' => $expirationDateStr,
                 'action' => ActionCommandSuspendCompanyCommand::class,
+                ])
+             ->seeInDatabase('schedules', [
+                'who_object' => Company::class,
+                'who_id' => $company->id,
+                'run_at' => $expirationDateStr,
+                'action' => ActionCommandSendSuspensionEmailCommand::class,
                 ])
              ;
     }

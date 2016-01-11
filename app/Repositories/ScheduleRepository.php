@@ -8,6 +8,7 @@ use App\Schedule;
 use App\LicenceReminderCalculator;
 use App\Model\ActionQueue\ActionCommandSuspendCompanyCommand;
 use App\Model\ActionQueue\ActionCommandSendReminderEmailCommand;
+use App\Model\ActionQueue\ActionCommandSendSuspensionEmailCommand;
 
 use Carbon\Carbon;
 
@@ -105,6 +106,23 @@ class ScheduleRepository
         $runAt = $company->licence_expire_at;
         // save company suspension in queue
         $action = ActionCommandSuspendCompanyCommand::class;
+
+        $schedules = [];
+        $schedules[$runAt] = $this->add($runAt, $action, $company, []);
+
+        return $schedules;
+    }
+
+    public function addSendSuspensionEmail(Company $company)
+    {
+        if(!isset($company->licence_expire_at)) {
+            throw new \Exception("Licence Expiration Date must be set first!");
+        }
+
+        // date when to suspend company
+        $runAt = $company->licence_expire_at;
+        // save suspension email in queue
+        $action = ActionCommandSendSuspensionEmailCommand::class;
 
         $schedules = [];
         $schedules[$runAt] = $this->add($runAt, $action, $company, []);
