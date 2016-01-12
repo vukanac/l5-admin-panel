@@ -15,6 +15,8 @@ use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class ActionCommandSuspendCompanyReceiverTest extends TestCase
 {
+    use DatabaseTransactions;
+    
 	public function test_receiver_suspend_company()
     {
     	$company = factory(Company::class)->create(['is_suspended' => false]);

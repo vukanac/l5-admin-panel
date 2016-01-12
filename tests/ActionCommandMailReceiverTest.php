@@ -15,6 +15,8 @@ use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class ActionCommandMailReceiverTest extends TestCase
 {
+    use DatabaseTransactions;
+
 	public function mockEmail($fromEmail, $fromName, $user, $subject, $emailTemplate, $returnNumberOfEmailsSent = 1)
     {
         Mail::shouldReceive('send')->once()->with(
